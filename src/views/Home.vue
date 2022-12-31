@@ -1,10 +1,15 @@
 <template>
     <Header />
-    <h1>Home</h1>
+    <GeneralCategories />
+    <main>
+        <Carousel />
+    </main>
 </template>
 
 <script setup>
-import Header from '../components/Header/Header.vue'
+import Header from '../components/Header/Index.vue'
+import GeneralCategories from '../components/Home/GeneralCategories/Index.vue'
+import Carousel from '../components/Home/Carousel/Index.vue'
 
 </script>
 

@@ -17,7 +17,7 @@
                         <path d="M22.2,200a112,112,0,0,1,171.6,0" fill="none" stroke="#127369" stroke-linecap="round"
                             stroke-linejoin="round" stroke-width="16"></path>
                     </svg>
-                    <ButtonNavigation text="Cadastre - se" to="/" />
+                    <ButtonNavigation text="Cadastre - se" path="/" />
                 </span>
                 <span class="nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="17.6" height="17.6" fill="#127369"
@@ -29,7 +29,7 @@
                         <path d="M136,40h56a8,8,0,0,1,8,8V208a8,8,0,0,1-8,8H136" fill="none" stroke="#127369"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
                     </svg>
-                    <ButtonNavigation text="Entrar" to="/" />
+                    <ButtonNavigation text="Entrar" path="/" />
                 </span>
             </nav>
             <nav v-else>
@@ -51,7 +51,7 @@
                         <line x1="176" y1="24" x2="176" y2="56" fill="none" stroke="#127369" stroke-linecap="round"
                             stroke-linejoin="round" stroke-width="16"></line>
                     </svg>
-                    <ButtonNavigation text="Minhas Receitas" to="/" />
+                    <ButtonNavigation text="Minhas Receitas" path="/" />
                 </span>
                 <span class="nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="17.6" height="17.6" fill="#127369"
@@ -60,7 +60,7 @@
                             fill="none" stroke="#127369" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="16"></path>
                     </svg>
-                    <ButtonNavigation text="Meus Favoritos" to="/" />
+                    <ButtonNavigation text="Meus Favoritos" path="/" />
                 </span>
                 <span class="nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="17.6" height="17.6" fill="#127369"
@@ -84,7 +84,7 @@
                         <line x1="233.9" y1="128" x2="244.2" y2="122" fill="none" stroke="#127369"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
                     </svg>
-                    <ButtonNavigation text="Minha Conta" to="/profile" />
+                    <ButtonNavigation text="Minha Conta" path="/profile" />
                 </span>
             </nav>
         </div>
@@ -117,22 +117,6 @@ header nav {
     gap: 1rem;
 }
 
-nav a,
-.link {
-    text-decoration: none;
-    color: var(--green-400);
-
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-nav a:hover,
-.link:hover {
-    text-decoration: none;
-    color: var(--green-350);
-}
-
 .container {
     width: 90%;
     margin: 0 auto;
@@ -142,11 +126,11 @@ header .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
 }
 
 .nav-link {
     display: flex;
     gap: 0.5rem;
+    align-items: center;
 }
 </style>

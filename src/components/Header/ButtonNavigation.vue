@@ -1,5 +1,5 @@
 <template>
-    <RouterLink :to="path">
+    <RouterLink :to="path" :class="type === 'header' ? 'header' : 'category'">
         <span>
             {{ text }}
         </span>
@@ -15,6 +15,10 @@ defineProps({
     },
     path: {
         type: String
+    },
+    type: {
+        type: String,
+        default: 'header'
     }
 })
 
@@ -23,5 +27,24 @@ defineProps({
 <style lang="css" scoped>
 span {
     font-size: 1.1rem;
+}
+
+a.header {
+    text-decoration: none;
+    color: var(--green-400);
+}
+
+a.header:hover {
+    text-decoration: none;
+    color: var(--green-500);
+}
+
+a.category {
+    text-decoration: none;
+    color: var(--white);
+}
+
+a.category:hover {
+    text-decoration: underline;
 }
 </style>
