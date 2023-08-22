@@ -1,6 +1,7 @@
 <template>
     <Header />
     <main>
+        <Sidebar />
         <div class="container">
             <MyRecipeCard />
             <MyRecipeCard />
@@ -24,22 +25,29 @@
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 import MyRecipeCard from '../../components/MyRecipeCard.vue';
+import Sidebar from '../../components/Sidebar.vue';
 </script>
 
 <style lang="css" scoped>
-.container {
-    width: 90%;
-    margin: 0 auto;
 
+main {
+    width: 90%;
+    margin: 3rem auto;
+
+    gap: 4rem;
+    display: flex;
+}
+.container {
     gap: 1.5rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
 
     height: 800px;
+    width: 96%;
     max-height: 800px;
 
     overflow-y: auto;
 
-    padding: 3rem 2rem;
+    padding: 0 2rem;
 }
 </style>
