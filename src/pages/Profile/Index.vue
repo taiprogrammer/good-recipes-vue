@@ -1,5 +1,7 @@
 <template>
-    <ModalProfileEdit />
+    <Transition>
+        <ModalProfileEdit v-if="editIsShown" @close="closeEditModal" />
+    </Transition>
     <Header />
     <main>
         <Sidebar />
@@ -7,7 +9,7 @@
             <div class="title">
                 <PhClipboardText size="25" />
                 <h1>Meus dados</h1>
-                <PhPencil size="25" class="edit" />
+                <PhPencil @click="openEditModal" size="25" class="edit" />
             </div>
             <div class="user-data">
                 <div class="field">
@@ -45,6 +47,17 @@ import Sidebar from '../../components/Sidebar.vue';
 import ModalProfileEdit from './components/ModalProfileEdit.vue';
 
 import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
+import { ref } from 'vue'
+
+const editIsShown = ref(false);
+
+function openEditModal() {
+    editIsShown.value = true;
+}
+
+function closeEditModal() {
+    editIsShown.value = false;
+}
 </script>
 
 <style lang="css" scoped>
@@ -148,5 +161,15 @@ input {
 
 .edit:hover {
     color: var(--green350);
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
 }
 </style>

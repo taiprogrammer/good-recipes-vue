@@ -1,5 +1,5 @@
 <template>
-    <Modal>
+    <Modal @close="closeModal">
         <template #header>
             Editar Perfil
         </template>
@@ -20,7 +20,7 @@
             </form>
         </template>
         <template #footer>
-            <button class="danger">Cancelar</button>
+            <button @click="closeModal" class="danger">Cancelar</button>
             <button class="success">Salvar</button>
         </template>
     </Modal>
@@ -28,6 +28,14 @@
 
 <script setup>
 import Modal from '../../../components/Modal.vue';
+
+import { defineEmits } from 'vue';
+
+const emit = defineEmits(['close']);
+
+function closeModal() {
+    emit('close');
+}
 </script>
 
 <style lang="css" scoped>

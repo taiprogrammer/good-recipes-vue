@@ -1,11 +1,9 @@
 <template>
-    <transition name="fade">
-        <div class="modal_overlay" tabindex="-1">
-            <transition>
+        <div class="modal_overlay">
                 <div class="modal">
                     <header>
                         <slot name="header"></slot>
-                        <button @click="close">
+                        <button @click="closeModal">
                             <PhXCircle class="close" size="25" />
                         </button>
                     </header>
@@ -16,15 +14,18 @@
                         <slot name="footer"></slot>
                     </footer>
                 </div>
-            </transition>
         </div>
-    </transition>
 </template>
 
 <script setup>
 import { PhXCircle } from '@phosphor-icons/vue';
+import { defineEmits } from 'vue';
 
-defineEmits(['close'])
+const emit = defineEmits(['close']);
+
+function closeModal() {
+    emit('close');
+}
 </script>
 
 <style lang="css" scoped>
@@ -94,10 +95,6 @@ footer {
     justify-content: flex-end;
 
     padding: 1rem 1.5rem;
-}
-
-.fade {
-    transition: opacity 0.15s linear;
 }
 
 button {
