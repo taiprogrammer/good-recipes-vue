@@ -2,6 +2,9 @@
     <Transition>
         <ModalProfileEdit v-if="editIsShown" @close="closeEditModal" />
     </Transition>
+    <Transition>
+        <ModalPasswordChange v-if="passwordChangeIsShown" @close="closePasswordChangeModal" />
+    </Transition>
     <Header />
     <main>
         <Sidebar />
@@ -32,7 +35,7 @@
                 </div>
                 <div class="option">
                     <h4>Credenciais de acesso</h4>
-                    <RouterLink to="/">Mudar minha senha</RouterLink>
+                    <a @click="openPasswordChangeModal">Mudar minha senha</a>
                 </div>
             </div>
         </div>
@@ -45,11 +48,13 @@ import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 import Sidebar from '../../components/Sidebar.vue';
 import ModalProfileEdit from './components/ModalProfileEdit.vue';
+import ModalPasswordChange from './components/ModalPasswordChange.vue';
 
 import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
 import { ref } from 'vue'
 
 const editIsShown = ref(false);
+const passwordChangeIsShown = ref(false);
 
 function openEditModal() {
     editIsShown.value = true;
@@ -57,6 +62,14 @@ function openEditModal() {
 
 function closeEditModal() {
     editIsShown.value = false;
+}
+
+function openPasswordChangeModal() {
+    passwordChangeIsShown.value = true;
+}
+
+function closePasswordChangeModal() {
+    passwordChangeIsShown.value = false;
 }
 </script>
 
@@ -109,6 +122,10 @@ input {
     border-radius: 0.25rem;
     margin-top: 0.5rem;
     transition: border-color .15s ease-in-out, box-shaddow .15s ease-in-out;
+}
+
+a {
+    cursor: pointer;
 }
 
 .options {
