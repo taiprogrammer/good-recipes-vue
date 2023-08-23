@@ -70,6 +70,10 @@ h3 {
     flex-direction: column;
 }
 
+.router-link-active {
+    color: var(--green450);
+}
+
 a {
     padding: 1rem 0.5rem;
     text-decoration: none;
