@@ -1,4 +1,5 @@
 <template>
+    <ModalProfileEdit />
     <Header />
     <main>
         <Sidebar />
@@ -41,6 +42,7 @@
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 import Sidebar from '../../components/Sidebar.vue';
+import ModalProfileEdit from './components/ModalProfileEdit.vue';
 
 import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
 </script>
