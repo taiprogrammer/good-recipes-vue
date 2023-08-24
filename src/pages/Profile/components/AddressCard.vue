@@ -9,7 +9,7 @@
                 <button>
                     <PhTrash size="20" />
                 </button>
-                <button>
+                <button @click="edit">
                     <PhPencil size="20" />
                 </button>
             </div>
@@ -23,6 +23,13 @@
 
 <script setup>
 import { PhHouse, PhPencil, PhTrash } from '@phosphor-icons/vue';
+import { defineEmits } from 'vue';
+
+const emit = defineEmits(['edit']);
+
+function edit() {
+    emit('edit');
+}
 </script>
 
 <style lang="css" scoped>
