@@ -5,6 +5,9 @@
     <Transition>
         <ModalPasswordChange v-if="passwordChangeIsShown" @close="closePasswordChangeModal" />
     </Transition>
+    <Transition>
+        <MyAddressesModal v-if="myAddressesModalIsShown" @close="closeMyAddressesModal" />
+    </Transition>
     <Header />
     <main>
         <Sidebar />
@@ -31,7 +34,7 @@
             <div class="options">
                 <div class="option">
                     <h4>Meus endereços</h4>
-                    <RouterLink to="/">Meus endereços</RouterLink>
+                    <a @click="openMyAddressesModal">Meus endereços</a>
                 </div>
                 <div class="option">
                     <h4>Credenciais de acesso</h4>
@@ -52,9 +55,11 @@ import ModalPasswordChange from './components/ModalPasswordChange.vue';
 
 import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
 import { ref } from 'vue'
+import MyAddressesModal from './components/MyAddressesModal.vue';
 
 const editIsShown = ref(false);
 const passwordChangeIsShown = ref(false);
+const myAddressesModalIsShown = ref(false);
 
 function openEditModal() {
     editIsShown.value = true;
@@ -70,6 +75,14 @@ function openPasswordChangeModal() {
 
 function closePasswordChangeModal() {
     passwordChangeIsShown.value = false;
+}
+
+function openMyAddressesModal() {
+    myAddressesModalIsShown.value = true;
+}
+
+function closeMyAddressesModal() {
+    myAddressesModalIsShown.value = false;
 }
 </script>
 
