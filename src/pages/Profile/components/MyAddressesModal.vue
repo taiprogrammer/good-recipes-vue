@@ -7,8 +7,9 @@
             </div>
         </template>
         <template #content>
-            <Addresses v-if="isAddressesShown" @new-address="openNewAddressSection" />
+            <Addresses v-if="isAddressesShown" @new-address="openNewAddressSection" @edit="openEditAddress" />
             <NewAddress v-if="isNewAddressShown" @back="backToAddresses" />
+            <EditAddress v-if="isEditAddressShown" @back="backMyAddresses"/>
         </template>
     </Modal>
 </template>
@@ -16,15 +17,17 @@
 <script setup>
 import Addresses from './Addresses.vue';
 import NewAddress from './NewAddress.vue';
+import EditAddress from './EditAddress.vue';
 import Modal from '../../../components/Modal.vue';
 
-import { PhMapPin } from '@phosphor-icons/vue';
 import { defineEmits, ref } from 'vue';
+import { PhMapPin } from '@phosphor-icons/vue';
 
 const emit = defineEmits(['close']);
 
 const isAddressesShown = ref(true);
 const isNewAddressShown = ref(false);
+const isEditAddressShown = ref(false);
 
 function close() {
     emit('close');
@@ -37,6 +40,16 @@ function openNewAddressSection() {
 
 function backToAddresses() {
     isNewAddressShown.value = false;
+    isAddressesShown.value = true;
+}
+
+function openEditAddress() {
+    isAddressesShown.value = false;
+    isEditAddressShown.value = true;
+}
+
+function backMyAddresses() {
+    isEditAddressShown.value = false;
     isAddressesShown.value = true;
 }
 </script>

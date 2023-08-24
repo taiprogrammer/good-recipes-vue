@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-        <AddressCard />
-        <AddressCard />
-        <AddressCard />
+        <AddressCard @edit="goToEdit"/>
+        <AddressCard @edit="goToEdit"/>
+        <AddressCard @edit="goToEdit"/>
         <footer>
             <button @click="goToNewAddress">
                 <span>Adicionar endereço</span>
@@ -18,10 +18,14 @@ import AddressCard from './AddressCard.vue';
 import { defineEmits } from 'vue';
 import { PhArrowRight } from '@phosphor-icons/vue';
 
-const emit = defineEmits(['newAddress']);
+const emit = defineEmits(['newAddress', 'edit']);
 
 function goToNewAddress() {
     emit('newAddress');
+}
+
+function goToEdit() {
+    emit('edit');
 }
 </script>
 
