@@ -60,8 +60,8 @@ async function signUp(event) {
     const payload = {
         nome: name.value,
         email: email.value,
-        senha: birthdate.value,
-        dataNascimento: password.value
+        senha: password.value,
+        dataNascimento: birthdate.value
     }
 
     if (nome.value === '' || email.value === '' || birthdate.value === '' || password.value === '') {

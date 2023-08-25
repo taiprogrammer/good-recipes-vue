@@ -8,13 +8,13 @@
                         <h1>Bem vindo de volta!</h1>
                         <div class="field">
                             <label for="email">Email</label>
-                            <input type="email" name="email" id="email">
+                            <input type="email" name="email" id="email" v-model="email">
                         </div>
                         <div class="field">
                             <label for="senha">Senha</label>
-                            <input type="password" name="senha" id="senha">
+                            <input type="password" name="senha" id="senha" v-model="password">
                         </div>
-                        <button>Entrar</button>
+                        <button @click="login">Entrar</button>
                         <div class="divider"></div>
                         <p>Não possui uma conta? <RouterLink to="/signup">Cadastre - se aqui</RouterLink>
                         </p>
@@ -32,7 +32,51 @@
 <script setup>
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
-import { RouterLink } from 'vue-router'
+
+import { ref } from 'vue';
+import { api } from '../../services';
+import { toast } from 'vue3-toastify';
+import { RouterLink, useRouter } from 'vue-router';
+
+const email = ref('');
+const password = ref('');
+
+const router = useRouter();
+
+async function login(event) {
+    event.preventDefault();
+    const payload = {
+        email: email.value,
+        senha: password.value
+    }
+
+    if (email.value === '' || password.value === '') {
+        toast.error('Campos obrigatórios faltantes', {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+        return
+    }
+
+    api.post("/user/login", payload).then(async ({ data }) => {
+        toast.success("Login feito com sucesso. Estamos te redirecionando...", {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: 'colored'
+        })
+        localStorage.setItem("token", JSON.stringify(data.token));
+        setTimeout(() => {
+            router.push("/")
+        }, 5000)
+    }).catch((error) => {
+        if (error.response.data.status === 401) {
+            toast.error(error.response.data.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                theme: "colored"
+            })
+            return
+        }
+    })
+}
 </script>
 
 <style lang="css" scoped>
