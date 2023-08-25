@@ -21,16 +21,25 @@
                 <PhClipboardText />
                 <span>Meus dados</span>
             </RouterLink>
-            <RouterLink to="/">
+            <a @click="logout">
                 <PhSignOut />
                 <span>Sair</span>
-            </RouterLink>
+            </a>
         </div>
     </nav>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import { PhUserCircleGear, PhHeart, PhNotepad, PhFolderNotchOpen, PhClipboardText, PhSignOut } from '@phosphor-icons/vue';
+
+const router = useRouter();
+
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    router.push("/");
+}
 </script>
 
 <style lang="css" scoped>
@@ -75,6 +84,7 @@ h3 {
 }
 
 a {
+    cursor: pointer;
     padding: 1rem 0.5rem;
     text-decoration: none;
     color: var(--green400);
