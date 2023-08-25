@@ -13,7 +13,7 @@
                 <PhNotepad />
                 <span>Envie sua receita</span>
             </RouterLink>
-            <RouterLink to="/my-recipes">
+            <RouterLink to="/my-recipes/1">
                 <PhFolderNotchOpen />
                 <span>Minhas receitas</span>
             </RouterLink>

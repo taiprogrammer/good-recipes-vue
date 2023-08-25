@@ -36,7 +36,7 @@ const routes = [
     component: NewRecipe,
   },
   {
-    path: "/my-recipes",
+    path: "/my-recipes/:id",
     name: "My Recipes",
     component: MyRecipes,
   },
