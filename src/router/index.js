@@ -7,6 +7,7 @@ import Recipe from "../pages/Recipe/Index.vue";
 import NewRecipe from "../pages/NewRecipe/Index.vue";
 import MyRecipes from "../pages/MyRecipes/Index.vue";
 import Profile from "../pages/Profile/Index.vue";
+import MyFavorites from "../pages/MyFavorites/Index.vue";
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: "/my-profile/:id",
     name: "My Profile",
     component: Profile,
+  },
+  {
+    path: "/my-favorites/:id",
+    name: "My Favorites",
+    component: MyFavorites,
   },
 ];
 
