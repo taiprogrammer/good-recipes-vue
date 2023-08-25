@@ -15,15 +15,15 @@
                 </RouterLink>
             </nav>
             <nav v-else>
-                <RouterLink to="/">
+                <RouterLink to="/my-recipes/1">
                     <PhNotepad />
                     <span>Minhas receitas</span>
                 </RouterLink>
-                <RouterLink to="/">
+                <RouterLink to="/my-favorites/1">
                     <PhHeart />
                     <span>Meus favoritos</span>
                 </RouterLink>
-                <RouterLink to="/">
+                <RouterLink to="/my-profile/1">
                     <PhUserGear />
                     <span>Minha conta</span>
                 </RouterLink>
