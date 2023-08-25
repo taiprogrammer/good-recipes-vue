@@ -64,6 +64,7 @@ async function login(event) {
             theme: 'colored'
         })
         localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("userId", JSON.stringify(data.id));
         setTimeout(() => {
             router.push("/")
         }, 5000)
