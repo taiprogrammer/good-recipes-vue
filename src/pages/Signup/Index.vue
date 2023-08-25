@@ -11,25 +11,25 @@
                     <form>
                         <div>
                             <label for="nome">Nome completo</label>
-                            <input type="text" name="nome" id="nome">
+                            <input type="text" name="nome" id="nome" v-model="name">
                         </div>
                         <div>
                             <label for="email">Insira um email</label>
-                            <input type="email" name="email" id="email">
+                            <input type="email" name="email" id="email" v-model="email">
                         </div>
                         <div>
                             <label for="confirm_email">Confirme o email</label>
-                            <input type="email" name="confirm_email" id="confirm_email">
+                            <input type="email" name="confirm_email" id="confirm_email" v-model="email_confirm">
                         </div>
                         <div>
                             <label for="data_nascimento">Data de nascimento</label>
-                            <input type="date" name="data_nascimento" id="data_nascimento">
+                            <input type="date" name="data_nascimento" id="data_nascimento" v-model="birthdate">
                         </div>
                         <div>
                             <label for="senha">Insira uma senha</label>
-                            <input type="password" name="senha" id="senha">
+                            <input type="password" name="senha" id="senha" v-model="password">
                         </div>
-                        <button>Cadastrar</button>
+                        <button @click="signUp">Cadastrar</button>
                         <div class="divider"></div>
                         <p>Possui uma conta? <RouterLink to="/login">Faça login.</RouterLink>
                         </p>
@@ -44,6 +44,54 @@
 <script setup>
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
+
+import { ref } from 'vue';
+import { toast } from 'vue3-toastify';
+import { api } from '../../services';
+
+const name = ref('');
+const email = ref('');
+const email_confirm = ref('');
+const birthdate = ref('');
+const password = ref('');
+
+async function signUp(event) {
+    event.preventDefault();
+    const payload = {
+        nome: name.value,
+        email: email.value,
+        senha: birthdate.value,
+        dataNascimento: password.value
+    }
+
+    if (nome.value === '' || email.value === '' || birthdate.value === '' || password.value === '') {
+        toast.error("Campos obrigatórios faltantes!", {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+        return
+    }
+
+    if (email.value !== email_confirm.value) {
+        toast.error("Emails não coincidem!", {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+        return
+    }
+
+    api.post("/user", payload).then(async (response) => {
+        toast.success("Cadastro feito com sucesso!", {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+    }).catch((error) => {
+        toast.error(error, {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+    })
+}
 </script>
 
 <style lang="css" scoped>

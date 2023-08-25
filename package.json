@@ -11,9 +11,11 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.16",
     "@phosphor-icons/vue": "^2.1.6",
+    "axios": "^1.4.0",
     "keen-slider": "^6.8.6",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.4"
+    "vue-router": "^4.2.4",
+    "vue3-toastify": "^0.1.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
