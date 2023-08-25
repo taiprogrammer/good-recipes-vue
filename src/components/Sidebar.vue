@@ -5,7 +5,7 @@
             <h3>Nome do usuário</h3>
         </header>
         <div class="options">
-            <RouterLink to="/">
+            <RouterLink to="/my-favorites/1">
                 <PhHeart />
                 <span>Meus favoritos</span>
             </RouterLink>
