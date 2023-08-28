@@ -1,7 +1,8 @@
 <template>
     <div class="wrapper">
         <div class="container">
-            <img v-if="imagemUrl === null" src="..//assets/no-image/cover.png" alt="Receita sem imagem">
+            <img v-if="imagemUrl === null" src="../assets/no-image/cover.png" alt="Receita sem imagem">
+            <img v-else :src="`http://localhost:8080/${imagemUrl}`" :alt="nome">
 
             <PhHeart class="favorite-blank" />
 
@@ -67,6 +68,7 @@ const props = defineProps({
 
 img {
     height: 300px;
+    max-width: 290px;
 }
 
 svg.favorite-blank {
