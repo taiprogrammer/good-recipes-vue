@@ -1,8 +1,24 @@
 <template>
+    <div v-if="showLoader" class="loader">
+        <Loader/>
+    </div>
     <div class="container">
-        <AddressCard @edit="goToEdit"/>
-        <AddressCard @edit="goToEdit"/>
-        <AddressCard @edit="goToEdit"/>
+        <template v-if="addresses !== null">
+            <div class="address" v-for="(address, key) in addresses">
+                <AddressCard 
+                    :key="key" 
+                    :rua="address.logradouro" 
+                    :numero="address.numero" 
+                    :cep="address.cep" 
+                    :cidade="address.cidade"
+                    :pais="address.pais" 
+                    @edit="goToEdit" 
+                />
+            </div>
+        </template>
+        <template v-if="noAddresses">
+            <h2>Você não possui endereços cadastrados!</h2>
+        </template>
         <footer>
             <button @click="goToNewAddress">
                 <span>Adicionar endereço</span>
@@ -14,11 +30,20 @@
 
 <script setup>
 import AddressCard from './AddressCard.vue';
+import Loader from '../../../components/Loader.vue';
 
-import { defineEmits } from 'vue';
+import { useRoute } from 'vue-router';
+import { api } from '../../../services';
 import { PhArrowRight } from '@phosphor-icons/vue';
+import { defineEmits, onBeforeMount, ref } from 'vue';
 
 const emit = defineEmits(['newAddress', 'edit']);
+
+const route = useRoute();
+
+const addresses = ref(null);
+const noAddresses = ref(false);
+const showLoader = ref(true);
 
 function goToNewAddress() {
     emit('newAddress');
@@ -27,9 +52,42 @@ function goToNewAddress() {
 function goToEdit() {
     emit('edit');
 }
+
+async function getAddresses() {
+    const id = route.params.id;
+    const token = JSON.parse(window.localStorage.getItem("token"));
+    await api.get(`/address/${id}`, {
+        headers: {
+            'x-access-token': token
+        }
+    })
+        .then(async ({ data }) => {
+            if (data.length > 0) {
+                addresses.value = data;
+                showLoader.value = false;
+                noAddresses.value = false;
+            }
+            if (data.length === 0) {
+                showLoader.value = false;
+                noAddresses.value = true;
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+}
+
+onBeforeMount(() => {
+    getAddresses();
+})
 </script>
 
 <style lang="css" scoped>
+.address+.address {
+    margin-top: 1rem;
+}
+.loader {
+    padding-bottom: 3rem;
+}
 footer button {
     width: 94%;
 

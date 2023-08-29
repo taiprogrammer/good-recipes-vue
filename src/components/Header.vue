@@ -23,7 +23,7 @@
                     <PhHeart />
                     <span>Meus favoritos</span>
                 </RouterLink>
-                <RouterLink to="/my-profile/1">
+                <RouterLink :to="`/my-profile/${userId}`">
                     <PhUserGear />
                     <span>Minha conta</span>
                 </RouterLink>
@@ -37,6 +37,7 @@ import { RouterLink } from 'vue-router'
 import { PhUserPlus, PhSignIn, PhNotepad, PhHeart, PhUserGear } from '@phosphor-icons/vue'
 
 const logged = window.localStorage.token ? true : false;
+const userId = window.localStorage.userId ? JSON.parse(window.localStorage.userId) : null;
 </script>
 
 <style lang="css" scoped>
