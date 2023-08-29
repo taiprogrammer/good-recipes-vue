@@ -20,15 +20,30 @@
             <div class="user-data">
                 <div class="field">
                     <label for="nome">Nome:</label>
-                    <input type="text" name="nome" id="nome" disabled>
+                    <input 
+                    type="text" 
+                    name="nome" 
+                    id="nome" 
+                    :value="userData !== null ? userData.nome : ''" 
+                    disabled>
                 </div>
                 <div class="field">
                     <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" disabled>
+                    <input 
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    :value="userData !== null ? userData.email : ''" 
+                    disabled>
                 </div>
                 <div class="field">
                     <label for="data_nascimento">Data de Nascimento:</label>
-                    <input type="date" name="data_nascimento" id="data_nascimento" disabled>
+                    <input 
+                    type="date" 
+                    name="data_nascimento" 
+                    id="data_nascimento" 
+                    :value="userData !== null ? userData.dataNascimento : ''" 
+                    disabled>
                 </div>
             </div>
             <div class="options">
@@ -51,15 +66,36 @@ import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 import Sidebar from '../../components/Sidebar.vue';
 import ModalProfileEdit from './components/ModalProfileEdit.vue';
+import MyAddressesModal from './components/MyAddressesModal.vue';
 import ModalPasswordChange from './components/ModalPasswordChange.vue';
 
+import { onBeforeMount, ref } from 'vue'
+import { useRoute } from 'vue-router';
 import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
-import { ref } from 'vue'
-import MyAddressesModal from './components/MyAddressesModal.vue';
+import { api } from '../../services';
+
+const route = useRoute();
 
 const editIsShown = ref(false);
 const passwordChangeIsShown = ref(false);
 const myAddressesModalIsShown = ref(false);
+
+const userData = ref(null);
+
+async function getProfile() {
+    const id = route.params.id;
+    const token = window.localStorage.getItem("token") ? JSON.parse(window.localStorage.getItem("token")) : null;
+    await api.get(`/user/${id}`, {
+        headers: {
+            "x-access-token": token
+        }
+    }).then(async ({ data }) => {
+        console.log(data)
+        userData.value = data;
+    }).catch((error) => {
+        console.log(error)
+    })
+}
 
 function openEditModal() {
     editIsShown.value = true;
@@ -84,6 +120,10 @@ function openMyAddressesModal() {
 function closeMyAddressesModal() {
     myAddressesModalIsShown.value = false;
 }
+
+onBeforeMount(() => {
+    getProfile();
+})
 </script>
 
 <style lang="css" scoped>
