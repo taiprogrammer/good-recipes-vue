@@ -3,7 +3,7 @@
         <header>
             <div class="info_street">
                 <PhHouse size="20" />
-                <p>Rua lorem isum, 60</p>
+                <p>{{ rua }}, {{ numero }}</p>
             </div>
             <div class="options">
                 <button>
@@ -15,15 +15,22 @@
             </div>
         </header>
         <div class="content">
-            <p>CEP 08967567 - São Paulo, Brasil</p>
-            <p>Usuario x</p>
+            <p>CEP {{ cep }} - {{ cidade }}, {{ pais }}</p>
         </div>
     </div>
 </template>
 
 <script setup>
+import { defineEmits, defineProps } from 'vue';
 import { PhHouse, PhPencil, PhTrash } from '@phosphor-icons/vue';
-import { defineEmits } from 'vue';
+
+defineProps({
+    rua: String,
+    numero: Number,
+    cep: String,
+    cidade: String,
+    pais: String
+})
 
 const emit = defineEmits(['edit']);
 
