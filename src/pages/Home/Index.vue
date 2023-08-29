@@ -10,27 +10,10 @@
         </div>
         <div class="container-recipes" v-else-if="mostRecentsRecipes !== null">
             <div v-for="(recipe, key) in mostRecentsRecipes">
-                <RecipeCard 
-                :imagem-url="recipe.imagem" 
-                :nome="recipe.nome" 
-                :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
-                :porcoes="recipe.porcoes"
-                :key="`${key}_${recipe.receitaId}`"/>
+                <RecipeCard :imagem-url="recipe.imagem" :nome="recipe.nome"
+                    :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
+                    :porcoes="recipe.porcoes" :id="recipe.receitaId" :key="`${key}_${recipe.receitaId}`" />
             </div>
-            <!-- <RecipeCard :imagem-url="null" nome="Receita 1" tempo="1:20:30" :porcoes="2" />
-            <RecipeCard :imagem-url="null" nome="Receita 2" tempo="1:20:30" :porcoes="4" />
-            <RecipeCard :imagem-url="null" nome="Receita 3" tempo="1:20:30" :porcoes="6" />
-            <RecipeCard :imagem-url="null" nome="Receita 4" tempo="1:20:30" :porcoes="8" />
-            <RecipeCard :imagem-url="null" nome="Receita 5" tempo="1:20:30" :porcoes="10" /> -->
-        </div>
-        <div class="divider"></div>
-        <h1>Os mais acessados</h1>
-        <div class="container-recipes">
-            <RecipeCard :imagem-url="null" nome="Receita 1" tempo="1:20:30" :porcoes="2" />
-            <RecipeCard :imagem-url="null" nome="Receita 2" tempo="1:20:30" :porcoes="4" />
-            <RecipeCard :imagem-url="null" nome="Receita 3" tempo="1:20:30" :porcoes="6" />
-            <RecipeCard :imagem-url="null" nome="Receita 4" tempo="1:20:30" :porcoes="8" />
-            <RecipeCard :imagem-url="null" nome="Receita 5" tempo="1:20:30" :porcoes="10" />
         </div>
     </main>
     <Footer />
@@ -92,6 +75,7 @@ onMounted(async () => {
 .container-loader {
     width: 100%;
     margin: 0 auto;
+    padding: 3rem 0;
 }
 
 main {
