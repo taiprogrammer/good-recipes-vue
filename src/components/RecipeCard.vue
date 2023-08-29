@@ -20,7 +20,7 @@
                     <p>
                         <PhEye />
                         <span>
-                            <RouterLink to="/recipe/1">Ver mais</RouterLink>
+                            <RouterLink :to="`/recipe/${id}`">Ver mais</RouterLink>
                         </span>
                     </p>
                 </div>
@@ -36,7 +36,8 @@ const props = defineProps({
     nome: String,
     imagemUrl: String,
     tempo: String,
-    porcoes: Number
+    porcoes: Number,
+    id: Number
 })
 </script>
 
