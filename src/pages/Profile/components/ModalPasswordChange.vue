@@ -6,32 +6,66 @@
         <template #content>
             <form>
                 <div class="field">
-                    <label for="old_password">Digite a sua senha atual</label>
-                    <input type="password" name="old_password" id="old_password">
-                </div>
-                <div class="field">
                     <label for="new_password">Digite a nova senha</label>
-                    <input type="password" name="new_password" id="new_password">
+                    <input type="password" name="new_password" id="new_password" v-model="newPassword">
                 </div>
                 <div class="field">
                     <label for="confirm_new_password">Confirme a nova senha</label>
-                    <input type="password" name="confirm_new_password" id="confirm_new_password">
+                    <input type="password" name="confirm_new_password" id="confirm_new_password" v-model="confirmPassword">
                 </div>
             </form>
         </template>
         <template #footer>
             <button class="danger" @click="closeModal">Cancelar</button>
-            <button class="success">Salvar</button>
+            <button class="success" @click="changePassword">Salvar</button>
         </template>
     </Modal>
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router';
 import Modal from '../../../components/Modal.vue';
 
-import { defineEmits } from 'vue';
+import { defineEmits, ref } from 'vue';
+import { toast } from 'vue3-toastify';
+import { api } from '../../../services';
 
 const emit = defineEmits(['close']);
+
+const route = useRoute();
+
+const newPassword = ref('');
+const confirmPassword = ref('');
+
+async function changePassword() {
+    const id = route.params.id;
+    const token = window.localStorage.getItem("token") ? JSON.parse(window.localStorage.getItem("token")) : null;
+
+    if (newPassword.value !== confirmPassword.value) {
+        toast.error("Senhas não coincidem!", {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+
+        return
+    }
+
+    await api.put(`/user/${id}`, {
+        senha: newPassword.value
+    }, {
+        headers: {
+            "x-access-token": token
+        }
+    }).then(async ({ data }) => {
+        toast.success("Senha alterada com sucesso!", {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+    }).catch((error) => {
+        console.log(error)
+    })
+
+}
 
 function closeModal() {
     emit('close');
