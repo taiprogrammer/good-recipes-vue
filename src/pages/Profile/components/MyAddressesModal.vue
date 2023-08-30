@@ -9,7 +9,11 @@
         <template #content>
             <Addresses v-if="isAddressesShown" @new-address="openNewAddressSection" @edit="openEditAddress" />
             <NewAddress v-if="isNewAddressShown" @back="backToAddresses" />
-            <EditAddress v-if="isEditAddressShown" @back="backMyAddresses"/>
+            <EditAddress 
+                v-if="isEditAddressShown" 
+                @back="backMyAddresses" 
+                :address="address"
+            />
         </template>
     </Modal>
 </template>
@@ -29,6 +33,8 @@ const isAddressesShown = ref(true);
 const isNewAddressShown = ref(false);
 const isEditAddressShown = ref(false);
 
+const address = ref(null);
+
 function close() {
     emit('close');
 }
@@ -43,7 +49,8 @@ function backToAddresses() {
     isAddressesShown.value = true;
 }
 
-function openEditAddress() {
+function openEditAddress(addressProp) {
+    address.value = addressProp;
     isAddressesShown.value = false;
     isEditAddressShown.value = true;
 }
