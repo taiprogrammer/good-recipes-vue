@@ -12,7 +12,7 @@
                     :cep="address.cep" 
                     :cidade="address.cidade"
                     :pais="address.pais" 
-                    @edit="goToEdit" 
+                    @edit="goToEdit(address)" 
                 />
             </div>
         </template>
@@ -49,8 +49,8 @@ function goToNewAddress() {
     emit('newAddress');
 }
 
-function goToEdit() {
-    emit('edit');
+function goToEdit(address) {
+    emit('edit', address);
 }
 
 async function getAddresses() {
