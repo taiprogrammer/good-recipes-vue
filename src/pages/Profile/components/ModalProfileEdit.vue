@@ -7,21 +7,21 @@
             <form>
                 <div class="field">
                     <label for="nome">Nome</label>
-                    <input type="text" name="nome" id="nome">
+                    <input type="text" name="nome" id="nome" v-model="nome">
                 </div>
                 <div class="field">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email">
+                    <input type="email" name="email" id="email" v-model="email">
                 </div>
                 <div class="field">
                     <label for="data_nascimento">Data de Nascimento</label>
-                    <input type="date" name="data_nascimento" id="data_nascimento">
+                    <input type="date" name="data_nascimento" id="data_nascimento" v-model="dataNascimento">
                 </div>
             </form>
         </template>
         <template #footer>
             <button @click="closeModal" class="danger">Cancelar</button>
-            <button class="success">Salvar</button>
+            <button class="success" @click="handleSaveProfileChanges">Salvar</button>
         </template>
     </Modal>
 </template>
@@ -29,9 +29,47 @@
 <script setup>
 import Modal from '../../../components/Modal.vue';
 
-import { defineEmits } from 'vue';
+import { defineEmits, ref, defineProps } from 'vue';
+import { api } from '../../../services';
+import { useRoute, useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
+
+const props = defineProps({
+    userData: Object
+})
 
 const emit = defineEmits(['close']);
+
+const route = useRoute();
+const router = useRouter();
+
+const nome = ref(props.userData.nome);
+const email = ref(props.userData.email);
+const dataNascimento = ref(props.userData.dataNascimento);
+
+async function handleSaveProfileChanges() {
+    const id = route.params.id;
+    const token = window.localStorage.getItem("token") ? JSON.parse(window.localStorage.getItem('token')) : null;
+    await api.put(`/user/${id}`, {
+        nome: nome.value,
+        email: email.value,
+        dataNascimento: dataNascimento.value
+    }, {
+        headers: {
+            "x-access-token": token
+        }
+    }).then(async ({ data }) => {
+        toast.success("Dados salvos com sucesso! Espere a página recarregar.", {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+        setTimeout(() => {
+            router.go(0);
+        }, 5000)
+    }).catch((error) => {
+        console.log(error)
+    })
+}
 
 function closeModal() {
     emit('close');
@@ -86,7 +124,8 @@ button {
     background: var(--red500);
 }
 
-.danger:hover, .success:hover {
+.danger:hover,
+.success:hover {
     opacity: .8;
 }
 

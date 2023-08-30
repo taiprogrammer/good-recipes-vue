@@ -1,6 +1,10 @@
 <template>
     <Transition>
-        <ModalProfileEdit v-if="editIsShown" @close="closeEditModal" />
+        <ModalProfileEdit 
+        v-if="editIsShown" 
+        @close="closeEditModal" 
+        :user-data="userData" 
+        />
     </Transition>
     <Transition>
         <ModalPasswordChange v-if="passwordChangeIsShown" @close="closePasswordChangeModal" />
@@ -90,7 +94,6 @@ async function getProfile() {
             "x-access-token": token
         }
     }).then(async ({ data }) => {
-        console.log(data)
         userData.value = data;
     }).catch((error) => {
         console.log(error)
