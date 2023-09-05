@@ -50,6 +50,15 @@ async function changePassword() {
         return
     }
 
+    if (newPassword.value === '' || confirmPassword.value === '') {
+        toast.error("Campos obrigatórios vazios", {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        });
+
+        return
+    }
+
     await api.put(`/user/${id}`, {
         senha: newPassword.value
     }, {

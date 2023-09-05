@@ -6,7 +6,7 @@
                 <p>{{ rua }}, {{ numero }}</p>
             </div>
             <div class="options">
-                <button>
+                <button @click="deleteAddress(id)">
                     <PhTrash size="20" />
                 </button>
                 <button @click="edit">
@@ -29,13 +29,18 @@ defineProps({
     numero: Number,
     cep: String,
     cidade: String,
-    pais: String
+    pais: String,
+    id: String,
 })
 
-const emit = defineEmits(['edit']);
+const emit = defineEmits(['edit', 'delete']);
 
 function edit() {
     emit('edit');
+}
+
+function deleteAddress(id) {
+    emit('delete', id)
 }
 </script>
 
@@ -45,6 +50,7 @@ function edit() {
     padding: 1rem;
     border-radius: 0.5rem;
     border: 1px solid var(--gray300);
+    position: relative;
 }
 
 .wrapper+.wrapper {
@@ -70,7 +76,7 @@ header {
     align-items: center;
 }
 
-.options button {
+.options button{
     display: flex;
     align-items: center;
     justify-content: center;

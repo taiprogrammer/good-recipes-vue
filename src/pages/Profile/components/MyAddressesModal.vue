@@ -7,8 +7,16 @@
             </div>
         </template>
         <template #content>
-            <Addresses v-if="isAddressesShown" @new-address="openNewAddressSection" @edit="openEditAddress" />
-            <NewAddress v-if="isNewAddressShown" @back="backToAddresses" />
+            <Addresses 
+                v-if="isAddressesShown" 
+                @new-address="openNewAddressSection" 
+                @edit="openEditAddress"
+                @delete="deleteAddress" 
+            />
+            <NewAddress 
+                v-if="isNewAddressShown" 
+                @back="backToAddresses" 
+            />
             <EditAddress 
                 v-if="isEditAddressShown" 
                 @back="backMyAddresses" 
@@ -27,13 +35,17 @@ import Modal from '../../../components/Modal.vue';
 import { defineEmits, ref } from 'vue';
 import { PhMapPin } from '@phosphor-icons/vue';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'delete']);
 
 const isAddressesShown = ref(true);
 const isNewAddressShown = ref(false);
 const isEditAddressShown = ref(false);
 
 const address = ref(null);
+
+function deleteAddress(id) {
+    emit('delete', id);
+}
 
 function close() {
     emit('close');

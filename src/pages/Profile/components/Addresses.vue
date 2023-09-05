@@ -12,7 +12,9 @@
                     :cep="address.cep" 
                     :cidade="address.cidade"
                     :pais="address.pais" 
+                    :id="address._id"
                     @edit="goToEdit(address)" 
+                    @delete="deleteAddress"
                 />
             </div>
         </template>
@@ -37,7 +39,7 @@ import { api } from '../../../services';
 import { PhArrowRight } from '@phosphor-icons/vue';
 import { defineEmits, onBeforeMount, ref } from 'vue';
 
-const emit = defineEmits(['newAddress', 'edit']);
+const emit = defineEmits(['newAddress', 'edit', 'delete']);
 
 const route = useRoute();
 
@@ -51,6 +53,10 @@ function goToNewAddress() {
 
 function goToEdit(address) {
     emit('edit', address);
+}
+
+function deleteAddress(id) {
+    emit('delete', id);
 }
 
 async function getAddresses() {
