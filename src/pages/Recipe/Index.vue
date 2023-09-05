@@ -2,7 +2,11 @@
     <Header />
     <Topic />
     <main>
-        <div class="container">
+        <div class="loader_container" v-if="recipe === null">
+            <Loader />
+        </div>
+        <Transition v-else>
+            <div class="container">
             <h1>{{ recipe.nome }}</h1>
             <div class="box-recipe">
                 <div class="container-cover">
@@ -32,6 +36,7 @@
                 </div>
             </div>
         </div>
+        </Transition>
     </main>
     <Footer />
 </template>
@@ -45,6 +50,7 @@ import { api } from '../../services';
 import { useRoute } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
 import { PhForkKnife, PhTimer } from '@phosphor-icons/vue';
+import Loader from '../../components/Loader.vue';
 
 const route = useRoute();
 
@@ -54,7 +60,9 @@ async function getRecipe() {
     await api.get(`/recipe/${route.params.id}`)
         .then(async ({ data }) => {
             if (data) {
-                recipe.value = await data;
+                setTimeout(() => {
+                    recipe.value = data;
+                }, 1000)
             }
         })
         .catch((error) => {
@@ -73,6 +81,11 @@ onBeforeMount(() => {
 .container {
     width: 90%;
     margin: 0 auto;
+}
+
+.loader_container {
+    width: 90%;
+    margin: 18% auto;
 }
 
 h1 {
@@ -133,5 +146,15 @@ p {
 .box-recipe {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
 }
 </style>
