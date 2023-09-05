@@ -1,27 +1,37 @@
 <template>
     <div class="wrapper">
-        <img src="../assets/no-image/cover.png" alt="">
+        <img v-if="imagem === null" src="../assets/no-image/cover.png" alt="Receita sem imagem">
+        <img v-else :src="`http://localhost:8080/${imagem}`" :alt="nome">
         <div class="info">
-            <p>Nome</p>
+            <p>{{ nome }}</p>
             <div class="icon-desc">
                 <PhTimer />
-                <span>1:30:00</span>
+                <span>{{ tempo }}</span>
             </div>
             <div class="icon-desc">
                 <PhForkKnife />
-                <span>3 porções</span>
+                <span>{{ porcoes }}</span>
             </div>
             <div class="icon-desc">
                 <PhEye />
-                <RouterLink to="/recipe/1">Visualizar</RouterLink>
+                <RouterLink :to="`/recipe/${id}`">Visualizar</RouterLink>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import { defineProps } from 'vue';
 import { RouterLink } from 'vue-router';
 import { PhEye, PhTimer, PhForkKnife } from '@phosphor-icons/vue';
+
+defineProps({
+    imagem: String,
+    nome: String,
+    tempo: String,
+    porcoes: String,
+    id: Number
+})
 
 </script>
 
@@ -36,6 +46,7 @@ import { PhEye, PhTimer, PhForkKnife } from '@phosphor-icons/vue';
     transform: scale(0.95);
     transition: box-shaddow 0.5s, transform 0.5s;
 }
+
 .wrapper:hover {
     transform: scale(1);
     box-shadow: 5px 20px 30px rgba(0, 0, 0, 0.2);
