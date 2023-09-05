@@ -2,7 +2,7 @@
     <nav>
         <header>
             <PhUserCircleGear size="40" />
-            <h3>{{ userData !== null ? userData.nome : '' }}</h3>
+            <h3>Olá {{ username }}</h3>
         </header>
         <div class="options">
             <RouterLink to="/my-favorites/1">
@@ -33,15 +33,14 @@
 import { useRouter } from 'vue-router';
 import { PhUserCircleGear, PhHeart, PhNotepad, PhFolderNotchOpen, PhClipboardText, PhSignOut } from '@phosphor-icons/vue';
 
-defineProps({
-    userData: Object
-})
+const username = window.localStorage.getItem('username') ? JSON.parse(window.localStorage.getItem('username')) : '-'
 
 const router = useRouter();
 
 function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.removeItem("username");
     router.push("/");
 }
 </script>

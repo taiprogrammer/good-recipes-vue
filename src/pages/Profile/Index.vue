@@ -13,7 +13,7 @@
     </Transition>
     <Header />
     <main>
-        <Sidebar :user-data="userData" />
+        <Sidebar />
         <div class="info">
             <div class="title">
                 <PhClipboardText size="25" />
@@ -54,16 +54,16 @@
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 import Sidebar from '../../components/Sidebar.vue';
+import DeleteAddress from './components/DeleteAddress.vue';
 import ModalProfileEdit from './components/ModalProfileEdit.vue';
 import MyAddressesModal from './components/MyAddressesModal.vue';
 import ModalPasswordChange from './components/ModalPasswordChange.vue';
 
-import { onBeforeMount, ref } from 'vue'
-import { useRoute } from 'vue-router';
-import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
 import { api } from '../../services';
-import DeleteAddress from './components/DeleteAddress.vue';
 import { toast } from 'vue3-toastify';
+import { useRoute } from 'vue-router';
+import { onBeforeMount, ref } from 'vue';
+import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
 
 const route = useRoute();
 

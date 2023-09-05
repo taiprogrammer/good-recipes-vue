@@ -65,6 +65,7 @@ async function login(event) {
         })
         localStorage.setItem("token", JSON.stringify(data.token));
         localStorage.setItem("userId", JSON.stringify(data.id));
+        window.localStorage.setItem("username", JSON.stringify(data.nome));
         setTimeout(() => {
             router.push("/")
         }, 5000)
