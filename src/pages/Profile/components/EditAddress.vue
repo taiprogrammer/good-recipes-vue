@@ -59,7 +59,7 @@ const cidade = ref(props.address.cidade);
 const pais = ref(props.address.pais);
 
 async function handleSaveAddress() {
-    const address_id = props.address._id;
+    const address_id = props.address.endereco_id;
     const user_id = Number(route.params.id);
     const token = window.localStorage.getItem("token") ? JSON.parse(window.localStorage.getItem("token")) : null;
 
