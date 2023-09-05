@@ -69,7 +69,7 @@ const props = defineProps({
 
 img {
     height: 300px;
-    max-width: 290px;
+    max-width: 295px;
 }
 
 svg.favorite-blank {

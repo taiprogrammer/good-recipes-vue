@@ -2,7 +2,7 @@
     <nav>
         <header>
             <PhUserCircleGear size="40" />
-            <h3>Nome do usuário</h3>
+            <h3>{{ userData !== null ? userData.nome : '' }}</h3>
         </header>
         <div class="options">
             <RouterLink to="/my-favorites/1">
@@ -32,6 +32,10 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { PhUserCircleGear, PhHeart, PhNotepad, PhFolderNotchOpen, PhClipboardText, PhSignOut } from '@phosphor-icons/vue';
+
+defineProps({
+    userData: Object
+})
 
 const router = useRouter();
 

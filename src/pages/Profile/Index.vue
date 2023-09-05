@@ -1,20 +1,19 @@
 <template>
     <Transition>
-        <ModalProfileEdit 
-        v-if="editIsShown" 
-        @close="closeEditModal" 
-        :user-data="userData" 
-        />
+        <DeleteAddress v-if="deleteAddressIsShown" @close="closeDeleteAddress" @exclude="deleteAddress"/>
+    </Transition>
+    <Transition>
+        <ModalProfileEdit v-if="editIsShown" @close="closeEditModal" :user-data="userData" />
     </Transition>
     <Transition>
         <ModalPasswordChange v-if="passwordChangeIsShown" @close="closePasswordChangeModal" />
     </Transition>
     <Transition>
-        <MyAddressesModal v-if="myAddressesModalIsShown" @close="closeMyAddressesModal" />
+        <MyAddressesModal v-if="myAddressesModalIsShown" @close="closeMyAddressesModal" @delete="getAddressIdToDelete" />
     </Transition>
     <Header />
     <main>
-        <Sidebar />
+        <Sidebar :user-data="userData" />
         <div class="info">
             <div class="title">
                 <PhClipboardText size="25" />
@@ -24,30 +23,16 @@
             <div class="user-data">
                 <div class="field">
                     <label for="nome">Nome:</label>
-                    <input 
-                    type="text" 
-                    name="nome" 
-                    id="nome" 
-                    :value="userData !== null ? userData.nome : ''" 
-                    disabled>
+                    <input type="text" name="nome" id="nome" :value="userData !== null ? userData.nome : ''" disabled>
                 </div>
                 <div class="field">
                     <label for="email">Email:</label>
-                    <input 
-                    type="email" 
-                    name="email" 
-                    id="email" 
-                    :value="userData !== null ? userData.email : ''" 
-                    disabled>
+                    <input type="email" name="email" id="email" :value="userData !== null ? userData.email : ''" disabled>
                 </div>
                 <div class="field">
                     <label for="data_nascimento">Data de Nascimento:</label>
-                    <input 
-                    type="date" 
-                    name="data_nascimento" 
-                    id="data_nascimento" 
-                    :value="userData !== null ? userData.dataNascimento : ''" 
-                    disabled>
+                    <input type="date" name="data_nascimento" id="data_nascimento"
+                        :value="userData !== null ? userData.dataNascimento : ''" disabled>
                 </div>
             </div>
             <div class="options">
@@ -77,12 +62,17 @@ import { onBeforeMount, ref } from 'vue'
 import { useRoute } from 'vue-router';
 import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
 import { api } from '../../services';
+import DeleteAddress from './components/DeleteAddress.vue';
+import { toast } from 'vue3-toastify';
 
 const route = useRoute();
 
 const editIsShown = ref(false);
 const passwordChangeIsShown = ref(false);
 const myAddressesModalIsShown = ref(false);
+const deleteAddressIsShown = ref(false);
+
+const addressId = ref('');
 
 const userData = ref(null);
 
@@ -98,6 +88,33 @@ async function getProfile() {
     }).catch((error) => {
         console.log(error)
     })
+}
+
+async function deleteAddress() {
+    const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+    await api.delete(`/address/${addressId.value}`, {
+        headers: {
+            'x-access-token': token
+        }
+    }).then(async ({ data }) => {
+        toast.success('Endereço deletado com sucesso!', {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+    }).catch((error) => {
+        console.log(error);
+    })
+}
+
+function getAddressIdToDelete(id) {
+    deleteAddressIsShown.value = true;
+    myAddressesModalIsShown.value = false;
+    addressId.value = id;
+}
+
+function closeDeleteAddress() {
+    deleteAddressIsShown.value = false;
+    myAddressesModalIsShown.value = true;
 }
 
 function openEditModal() {
