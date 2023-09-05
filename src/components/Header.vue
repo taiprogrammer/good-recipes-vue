@@ -15,11 +15,11 @@
                 </RouterLink>
             </nav>
             <nav v-else>
-                <RouterLink to="/my-recipes/1">
+                <RouterLink :to="`/my-recipes/${userId}`">
                     <PhNotepad />
                     <span>Minhas receitas</span>
                 </RouterLink>
-                <RouterLink to="/my-favorites/1">
+                <RouterLink :to="`/my-favorites/${userId}`">
                     <PhHeart />
                     <span>Meus favoritos</span>
                 </RouterLink>
