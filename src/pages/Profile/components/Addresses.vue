@@ -12,7 +12,7 @@
                     :cep="address.cep" 
                     :cidade="address.cidade"
                     :pais="address.pais" 
-                    :id="address._id"
+                    :id="address.endereco_id"
                     @edit="goToEdit(address)" 
                     @delete="deleteAddress"
                 />
