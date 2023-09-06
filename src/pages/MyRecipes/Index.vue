@@ -24,13 +24,13 @@
 <script setup>
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
+import Loader from '../../components/Loader.vue';
 import Sidebar from '../../components/Sidebar.vue';
 import MyRecipeCard from '../../components/MyRecipeCard.vue';
 
 import { api } from '../../services';
 import { useRoute } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
-import Loader from '../../components/Loader.vue';
 
 const route = useRoute();
 
