@@ -15,6 +15,23 @@
                     :porcoes="recipe.porcoes" :id="recipe.receitaId" :key="`${key}_${recipe.receitaId}`" />
             </div>
         </div>
+        <div class="divider"></div>
+        <h1>Os favoritinhos</h1>
+        <div class="container-loader" v-if="isLoadingFavorites">
+            <Loader />
+        </div>
+        <div class="container-recipes" v-else-if="mostFavoritesRecipes !== null">
+            <div v-for="(recipe, key) in mostFavoritesRecipes">
+                <RecipeCard
+                    :imagem-url="recipe['receita.imagem']" 
+                    :nome="recipe['receita.nome']"
+                    :tempo="`${recipe['receita.horas']}:${recipe['receita.minutos'] == 0 ? '00' : recipe['receita.minutos']}:${recipe['receita.segundos'] == 0 ? '00' : recipe['receita.segundos']}`"
+                    :porcoes="recipe['receita.porcoes']" 
+                    :id="recipe['receita.receita_id']" 
+                    :key="`${key}`"
+                />
+            </div>
+        </div>
     </main>
     <Footer />
 </template>
@@ -31,7 +48,9 @@ import { ref, onMounted } from 'vue';
 import { api } from '../../services/index';
 
 const isLoadingRecents = ref(true);
+const isLoadingFavorites = ref(true);
 const mostRecentsRecipes = ref(null);
+const mostFavoritesRecipes = ref(null);
 
 async function getMostRecentsRecipes() {
     api.get('/recipe/recents').then(async ({ data }) => {
@@ -47,8 +66,23 @@ async function getMostRecentsRecipes() {
     })
 }
 
+async function getMostFavoritesRecipes() {
+    await api.post('/favorite/most-favorites').then(async ({ data }) => {
+        if (data.length > 0) {
+            mostFavoritesRecipes.value = data;
+
+            setTimeout(() => {
+                isLoadingFavorites.value = false;
+            }, 2500)
+        }
+    }).catch((error) => {
+        console.log(error);
+    })
+}
+
 onMounted(async () => {
     await getMostRecentsRecipes();
+    await getMostFavoritesRecipes();
 })
 </script>
 
