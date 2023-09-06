@@ -2,24 +2,62 @@
     <Header />
     <main>
         <Sidebar />
-        <div class="container">
-            <MyRecipeCard />
-            <MyRecipeCard />
-            <MyRecipeCard />
-            <MyRecipeCard />
-            <MyRecipeCard />
-            <MyRecipeCard />
-            <MyRecipeCard />
-            <MyRecipeCard />
-            <MyRecipeCard />
+        <div class="no-recipe-container" v-if="isLoading">
+            <Loader />
         </div>
+        <template v-else>
+            <div class="container" v-if="myFavorites.length > 0">
+                <div v-for="(recipe, key) in myFavorites" :key="key">
+                    <MyRecipeCard 
+                    :id="recipe.receita.receita_id"
+                    :imagem="recipe.receita.imagem"
+                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.receita.segundos}`"
+                    :porcoes="recipe.receita.porcoes <= 1 ? `${recipe.receita.porcoes} porção` : `${recipe.receita.porcoes} porções`"/>
+                </div>
+        </div>
+        </template>
     </main>
 </template>
 
 <script setup>
+import { onBeforeMount, ref } from 'vue';
+import { api } from '../../services';
+import { useRoute } from 'vue-router';
+
 import Header from '../../components/Header.vue';
-import MyRecipeCard from '../../components/MyRecipeCard.vue';
+import Loader from '../../components/Loader.vue';
 import Sidebar from '../../components/Sidebar.vue';
+import MyRecipeCard from '../../components/MyRecipeCard.vue';
+
+const route = useRoute();
+
+const isLoading = ref(true);
+const myFavorites = ref(null);
+
+async function getMyFavorites() {
+    const id = route.params.id;
+    const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+
+    await api.get(`/favorite/${id}`, {
+        headers: {
+            "x-access-token": token
+        }
+    }).then(async ({ data }) => {
+        if (data.length > 0) {
+            myFavorites.value = data;
+
+            setTimeout(() => {
+                isLoading.value = false;
+            }, 1500)
+        }
+    }).catch((error) => {
+        console.log(error);
+    })
+}
+
+onBeforeMount(async () => {
+    await getMyFavorites();
+})
 </script>
 
 <style lang="css" scoped>
@@ -43,5 +81,15 @@ main {
     overflow-y: auto;
 
     padding: 0 2rem;
+}
+
+.no-recipe-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    color: var(--textMedium);
 }
 </style>
