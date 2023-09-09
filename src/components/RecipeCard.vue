@@ -1,10 +1,13 @@
 <template>
     <div class="wrapper">
         <div class="container">
-            <img v-if="imagemUrl === null" src="../assets/no-image/cover.png" alt="Receita sem imagem">
-            <img v-else :src="`http://localhost:8080/${imagemUrl}`" :alt="nome">
+            <div class="container-cover">
+                <img v-if="imagemUrl === null" src="../assets/no-image/cover.png" alt="Receita sem imagem">
+                <img v-else :src="`http://localhost:8080/${imagemUrl}`" :alt="nome">
+            </div>
 
-            <PhHeart class="favorite-blank" />
+            <PhHeart v-if="!isFavorite" class="favorite-blank" size="30" weight="regular" @click="createFavorite" />
+            <PhHeart v-else class="favorite-blank" size="30" weight="fill" @click="removeFavorite" />
 
             <div class="info-container">
                 <h2>{{ nome }}</h2>
@@ -15,7 +18,7 @@
                     </p>
                     <p>
                         <PhForkKnife />
-                        <span>{{ porcoes }} porção</span>
+                        <span>{{ porcoes <= 1 ? `${porcoes} porção` : `${porcoes} porções` }}</span>
                     </p>
                     <p>
                         <PhEye />
@@ -30,6 +33,8 @@
 </template>
 
 <script setup>
+import { api } from '../services';
+import { onBeforeMount, ref } from 'vue';
 import { PhHeart, PhTimer, PhForkKnife, PhEye } from '@phosphor-icons/vue'
 
 const props = defineProps({
@@ -37,7 +42,99 @@ const props = defineProps({
     imagemUrl: String,
     tempo: String,
     porcoes: Number,
-    id: Number
+    id: Number,
+    quantidade: Number,
+    favoriteId: Number
+})
+
+const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+const userId = window.localStorage.getItem('userId') ? JSON.parse(window.localStorage.getItem('userId')) : null;
+
+const userFavorites = ref(null);
+const isFavorite = ref(false);
+
+async function verifyFavorites() {
+    if (userFavorites.value !== null) {
+        userFavorites.value.map((favorite) => {
+            if (favorite.receita_id === props.id) {
+                isFavorite.value = true;
+            }
+        })
+    }
+}
+
+async function getUserLoggedFavorites() {
+    const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+    const userId = window.localStorage.getItem('userId') ? JSON.parse(window.localStorage.getItem('userId')) : null;
+
+    if (userId !== null) {
+        await api.get(`/favorite/${userId}`, {
+            headers: {
+                "x-access-token": token
+            }
+        }).then(async ({ data }) => {
+            userFavorites.value = await data;
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+}
+
+async function createFavorite() {
+    const paylod = {
+        favoritoId: props.favoriteId,
+        usuarioId: userId
+    }
+
+    if (isFavorite.value === false) {
+        await api.post(`/favorite`, paylod, {
+            headers: {
+                "x-access-token": token
+            }
+        }).then(async ({ data }) => {
+            await api.put(`/favorite/${props.favoriteId}`, {
+                quantidade: props.quantidade + 1
+            }, {
+                headers: {
+                    "x-access-token": token
+                }
+            }).then(async ({ data }) => {
+                isFavorite.value = true
+            }).catch((error) => console.log(error))
+
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+}
+
+async function removeFavorite() {
+    if (isFavorite.value === true) {
+        await api.delete(`/favorite/${props.favoriteId}`, {
+            headers: {
+                "x-access-token": token
+            }
+        }).then(async ({ data }) => {
+            await api.put(`/favorite/${props.favoriteId}`, {
+                quantidade: Number(props.quantidade - 1)
+            }, {
+                headers: {
+                    "x-access-token": token
+                }
+            }).then(async ({ data }) => {
+                isFavorite.value = false
+            }).catch((error) => {
+                console.log(error);
+            })
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+}
+
+onBeforeMount(async () => {
+    await getUserLoggedFavorites();
+    await verifyFavorites();
 })
 </script>
 
@@ -67,9 +164,17 @@ const props = defineProps({
     height: 100%;
 }
 
+.container-cover {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 img {
     height: 300px;
     max-width: 295px;
+    object-fit: cover;
 }
 
 svg.favorite-blank {

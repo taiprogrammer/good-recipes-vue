@@ -10,9 +10,16 @@
         </div>
         <div class="container-recipes" v-else-if="mostRecentsRecipes !== null">
             <div v-for="(recipe, key) in mostRecentsRecipes">
-                <RecipeCard :imagem-url="recipe.imagem" :nome="recipe.nome"
-                    :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
-                    :porcoes="recipe.porcoes" :id="recipe.receitaId" :key="`${key}_${recipe.receitaId}`" />
+                <RecipeCard 
+                    :imagem-url="recipe.receita.imagem" 
+                    :nome="recipe.receita.nome"
+                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.receita.segundos}`"
+                    :porcoes="recipe.receita.porcoes" 
+                    :id="recipe.receita.receita_id" 
+                    :quantidade="recipe.favorito.quantidade"
+                    :favorite-id="recipe.favoritoId"
+                    :key="`${key}`" 
+                    />
             </div>
         </div>
         <div class="divider"></div>
@@ -23,11 +30,13 @@
         <div class="container-recipes" v-else-if="mostFavoritesRecipes !== null">
             <div v-for="(recipe, key) in mostFavoritesRecipes">
                 <RecipeCard
-                    :imagem-url="recipe['receita.imagem']" 
-                    :nome="recipe['receita.nome']"
-                    :tempo="`${recipe['receita.horas']}:${recipe['receita.minutos'] == 0 ? '00' : recipe['receita.minutos']}:${recipe['receita.segundos'] == 0 ? '00' : recipe['receita.segundos']}`"
-                    :porcoes="recipe['receita.porcoes']" 
-                    :id="recipe['receita.receita_id']" 
+                    :imagem-url="recipe.receita.imagem" 
+                    :nome="recipe.receita.nome"
+                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.receita.segundos}`"
+                    :porcoes="recipe.receita.porcoes" 
+                    :id="recipe.receita.receita_id" 
+                    :quantidade="recipe.favorito.quantidade"
+                    :favorite-id="recipe.favoritoId"
                     :key="`${key}`"
                 />
             </div>
@@ -53,7 +62,7 @@ const mostRecentsRecipes = ref(null);
 const mostFavoritesRecipes = ref(null);
 
 async function getMostRecentsRecipes() {
-    api.get('/recipe/recents').then(async ({ data }) => {
+    api.post('/favorite/recents').then(async ({ data }) => {
         if (data.length > 0) {
             mostRecentsRecipes.value = data;
 

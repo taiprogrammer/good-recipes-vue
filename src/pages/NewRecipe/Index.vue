@@ -44,6 +44,7 @@
                             <label for="porcoes">Número de porções</label>
                             <input type="number" name="porcoes" id="porcoes">
                         </div>
+                        {{ ingredientes }}
                         <div class="field">
                             <label for="ingredientes" class="ingredientes">Ingredientes</label>
                             <QuillEditor v-model:content="ingredientes" theme="snow" toolbar="minimal"
