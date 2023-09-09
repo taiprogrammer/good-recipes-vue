@@ -8,7 +8,10 @@
         <template v-else>
             <div class="container" v-if="recipes.length > 0">
                 <div v-for="(recipe, key) in recipes" :key="key">
-                    <MyRecipeCard :id="recipe.receita_id" :imagem="recipe.imagem" :nome="recipe.nome"
+                    <RecipeCard 
+                        :id="recipe.receita_id" 
+                        :imagem-url="recipe.imagem" 
+                        :nome="recipe.nome"
                         :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
                         :porcoes="recipe.porcoes <= 1 ? `${recipe.porcoes} porção` : `${recipe.porcoes} porções`" />
                 </div>
@@ -31,6 +34,7 @@ import MyRecipeCard from '../../components/MyRecipeCard.vue';
 import { api } from '../../services';
 import { useRoute } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
+import RecipeCard from '../../components/RecipeCard.vue';
 
 const route = useRoute();
 
