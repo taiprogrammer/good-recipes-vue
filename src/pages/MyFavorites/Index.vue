@@ -12,7 +12,7 @@
                     :id="recipe.receita_id"
                     :imagem-url="recipe.imagem"
                     :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
-                    :porcoes="recipe.porcoes <= 1 ? `${recipe.porcoes} porção` : `${recipe.porcoes} porções`"/>
+                    :porcoes="recipe.porcoes"/>
                 </div>
         </div>
         </template>

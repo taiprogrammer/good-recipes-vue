@@ -27,11 +27,11 @@
                 <div class="container-info">
                     <h2>Ingredientes</h2>
                     <div class="ingredientes">
-                        {{ recipe.ingredientes }}
+                        <ul v-html="recipe.ingredientes"></ul>
                     </div>
                     <h2>Modo de preparo</h2>
                     <div class="modo-preparo">
-                        {{ recipe.modoPreparo }}
+                        <ul v-html="recipe.modoPreparo"></ul>
                     </div>
                 </div>
             </div>

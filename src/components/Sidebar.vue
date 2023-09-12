@@ -5,7 +5,7 @@
             <h3>Olá {{ username }}</h3>
         </header>
         <div class="options">
-            <RouterLink to="/my-favorites/1">
+            <RouterLink :to="`/my-favorites/${userId}`">
                 <PhHeart />
                 <span>Meus favoritos</span>
             </RouterLink>
@@ -13,11 +13,11 @@
                 <PhNotepad />
                 <span>Envie sua receita</span>
             </RouterLink>
-            <RouterLink to="/my-recipes/1">
+            <RouterLink :to="`/my-recipes/${userId}`">
                 <PhFolderNotchOpen />
                 <span>Minhas receitas</span>
             </RouterLink>
-            <RouterLink to="/my-profile/1">
+            <RouterLink :to="`/my-profile/${userId}`">
                 <PhClipboardText />
                 <span>Meus dados</span>
             </RouterLink>
@@ -34,6 +34,7 @@ import { useRouter } from 'vue-router';
 import { PhUserCircleGear, PhHeart, PhNotepad, PhFolderNotchOpen, PhClipboardText, PhSignOut } from '@phosphor-icons/vue';
 
 const username = window.localStorage.getItem('username') ? JSON.parse(window.localStorage.getItem('username')) : '-'
+const userId = window.localStorage.userId ? JSON.parse(window.localStorage.userId) : null;
 
 const router = useRouter();
 
