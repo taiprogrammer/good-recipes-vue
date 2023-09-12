@@ -9,10 +9,11 @@
             <div class="container" v-if="myFavorites.length > 0">
                 <div v-for="(recipe, key) in myFavorites" :key="key">
                     <RecipeCard 
-                    :id="recipe.receita_id"
-                    :imagem-url="recipe.imagem"
-                    :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
-                    :porcoes="recipe.porcoes"/>
+                        :id="recipe.receita_id"
+                        :imagem-url="recipe.imagem"
+                        :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
+                        :porcoes="recipe.porcoes"
+                    />
                 </div>
         </div>
         </template>

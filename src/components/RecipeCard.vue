@@ -44,7 +44,7 @@ const props = defineProps({
     porcoes: Number,
     id: Number,
     quantidade: Number,
-    favoriteId: Number
+    favoriteId: Number,
 })
 
 const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
@@ -52,12 +52,14 @@ const userId = window.localStorage.getItem('userId') ? JSON.parse(window.localSt
 
 const userFavorites = ref(null);
 const isFavorite = ref(false);
+const favoritoUsuarioId = ref(null);
 
 async function verifyFavorites() {
     if (userFavorites.value !== null) {
         userFavorites.value.map((favorite) => {
             if (favorite.receita_id === props.id) {
                 isFavorite.value = true;
+                favoritoUsuarioId.value = favorite.favorito_usuario_id;
             }
         })
     }
@@ -92,16 +94,7 @@ async function createFavorite() {
                 "x-access-token": token
             }
         }).then(async ({ data }) => {
-            await api.put(`/favorite/${props.favoriteId}`, {
-                quantidade: props.quantidade + 1
-            }, {
-                headers: {
-                    "x-access-token": token
-                }
-            }).then(async ({ data }) => {
-                isFavorite.value = true
-            }).catch((error) => console.log(error))
-
+            isFavorite.value = true
         }).catch((error) => {
             console.log(error);
         })
@@ -110,22 +103,15 @@ async function createFavorite() {
 
 async function removeFavorite() {
     if (isFavorite.value === true) {
-        await api.delete(`/favorite/${props.favoriteId}`, {
+        await api.put(`/favorite/${props.favoriteId}`, {
+            favoritoUsuarioId: favoritoUsuarioId.value,
+            quantidade: Number(props.quantidade - 1)
+        }, {
             headers: {
                 "x-access-token": token
             }
         }).then(async ({ data }) => {
-            await api.put(`/favorite/${props.favoriteId}`, {
-                quantidade: Number(props.quantidade - 1)
-            }, {
-                headers: {
-                    "x-access-token": token
-                }
-            }).then(async ({ data }) => {
-                isFavorite.value = false
-            }).catch((error) => {
-                console.log(error);
-            })
+            isFavorite.value = false;
         }).catch((error) => {
             console.log(error);
         })
