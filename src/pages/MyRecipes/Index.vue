@@ -13,7 +13,8 @@
                         :imagem-url="recipe.imagem" 
                         :nome="recipe.nome"
                         :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
-                        :porcoes="recipe.porcoes" />
+                        :porcoes="recipe.porcoes" 
+                    />
                 </div>
             </div>
             <div class="no-recipe-container" v-else>
