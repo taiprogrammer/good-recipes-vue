@@ -13,7 +13,7 @@
                         :imagem-url="recipe.imagem" 
                         :nome="recipe.nome"
                         :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
-                        :porcoes="recipe.porcoes <= 1 ? `${recipe.porcoes} porção` : `${recipe.porcoes} porções`" />
+                        :porcoes="recipe.porcoes" />
                 </div>
             </div>
             <div class="no-recipe-container" v-else>
@@ -77,7 +77,7 @@ main {
 .container {
     gap: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 
     height: 800px;
     width: 96%;

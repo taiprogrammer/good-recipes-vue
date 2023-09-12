@@ -15,49 +15,49 @@
                             <PhPencil :size="30" />
                         </label>
                     </div>
-                    <input type="file" id="file_upload">
+                    <input type="file" id="file_upload" @change="getImage">
+                    <p>{{ imageName }}</p>
                 </div>
                 <div class="side-two">
-                    <form>
+                    <form id="new_recipe">
                         <div class="field">
                             <label for="titulo">Título da Receita</label>
-                            <input type="text" name="titulo" id="titulo">
+                            <input type="text" name="titulo" id="titulo" v-model="nome">
                         </div>
                         <div class="time">
                             <label>Tempo de preparo</label>
                             <div class="time-container">
                                 <div class="field">
                                     <label for="hora">Hora(s)</label>
-                                    <input type="number" name="hora" id="hora">
+                                    <input type="number" name="hora" id="hora" v-model="horas">
                                 </div>
                                 <div class="field">
                                     <label for="minuto">Minuto(s)</label>
-                                    <input type="number" name="minuto" id="minuto">
+                                    <input type="number" name="minuto" id="minuto" v-model="minutos">
                                 </div>
                                 <div class="field">
                                     <label for="segundo">Segundo(s)</label>
-                                    <input type="number" name="segundo" id="segundo">
+                                    <input type="number" name="segundo" id="segundo" v-model="segundos">
                                 </div>
                             </div>
                         </div>
                         <div class="field">
                             <label for="porcoes">Número de porções</label>
-                            <input type="number" name="porcoes" id="porcoes">
+                            <input type="number" name="porcoes" id="porcoes" v-model="porcoes">
                         </div>
-                        {{ ingredientes }}
                         <div class="field">
                             <label for="ingredientes" class="ingredientes">Ingredientes</label>
-                            <QuillEditor v-model:content="ingredientes" theme="snow" toolbar="minimal"
+                            <QuillEditor v-model:content="ingredientes" theme="snow" :toolbar="[{ 'list': 'bullet' }]"
                                 placeholder="Digite sua receita aqui">
                             </QuillEditor>
                         </div>
                         <div class="field">
                             <label for="preparo" class="preparo">Modo de preparo</label>
-                            <QuillEditor v-model:content="modoPreparo" theme="snow" toolbar="minimal"
+                            <QuillEditor v-model:content="modoPreparo" theme="snow" :toolbar="[{ 'list': 'bullet' }]"
                                 placeholder="Digite o modo de preparo aqui">
                             </QuillEditor>
                         </div>
-                        <button>Enviar receita</button>
+                        <button @click="sendRecipe">Enviar receita</button>
                     </form>
                 </div>
             </div>
@@ -70,14 +70,83 @@
 <script setup>
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
-
-import { PhPencil, PhNotepad } from '@phosphor-icons/vue';
-import { QuillEditor } from '@vueup/vue-quill';
-import { ref } from 'vue';
 import Sidebar from '../../components/Sidebar.vue';
 
+import { ref } from 'vue';
+import { api } from '../../services/index.js';
+import { QuillEditor } from '@vueup/vue-quill';
+import { PhPencil, PhNotepad } from '@phosphor-icons/vue';
+import { toast } from 'vue3-toastify';
+
+const nome = ref("");
+const horas = ref(0);
+const minutos = ref(0);
+const segundos = ref(0);
+const porcoes = ref(0);
+const imagem = ref(null);
+const imageName = ref("");
 const ingredientes = ref("");
-const modoPreparo = ref("")
+const modoPreparo = ref("");
+const newIngredientes = ref("");
+const newModoPreparo = ref("");
+
+function convertIngredientes() {
+    const ingredientesValues = ingredientes.value.ops.filter(item => item.insert !== '\n');
+
+    ingredientesValues.map((item) => {
+        newIngredientes.value += `<li>${item.insert}</li>`
+    })
+}
+
+function convertModoPreparo() {
+    const modoPreparoValues = modoPreparo.value.ops.filter(item => item.insert !== '\n');
+
+    modoPreparoValues.map((item) => {
+        newModoPreparo.value += `<li>${item.insert}</li>`
+    })
+}
+
+function getImage(event) {
+    const file = event.target.files[0];
+    console.log(event.target.files[0]);
+    imagem.value = file;
+    imageName.value = file.name
+}
+
+async function sendRecipe(event) {
+    event.preventDefault();
+    convertIngredientes();
+    convertModoPreparo();
+
+    const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+    const userId = window.localStorage.getItem('userId') ? JSON.parse(window.localStorage.getItem('userId')) : null;
+
+    const formData = new FormData();
+    formData.append('imagem', imagem.value);
+    formData.append('nome', nome.value);
+    formData.append('horas', horas.value);
+    formData.append('minutos', minutos.value);
+    formData.append('porcoes', porcoes.value);
+    formData.append('segundos', segundos.value);
+    formData.append('ingredientes', newIngredientes.value);
+    formData.append('modoPreparo', newModoPreparo.value);
+    formData.append('usuarioId', userId);
+
+    console.log(formData)
+
+    await api.post('/recipe', formData, {
+        headers: {
+            "x-access-token": token
+        }
+    }).then(async ({ data }) => {
+        toast.success("Receita adicionada com sucesso!", {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored"
+        })
+    }).catch((error) => {
+        console.log(error);
+    })
+}
 </script>
 
 <style lang="css" scoped>
@@ -177,7 +246,8 @@ label {
     font-size: 1rem;
 }
 
-input {
+input,
+textarea {
     width: 96%;
     display: block;
     padding: 0.375rem 0.75rem;
