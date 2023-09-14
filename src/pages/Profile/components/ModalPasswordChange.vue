@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Modal from '../../../components/Modal.vue';
 
 import { defineEmits, ref } from 'vue';
@@ -33,6 +33,7 @@ import { api } from '../../../services';
 const emit = defineEmits(['close']);
 
 const route = useRoute();
+const router = useRouter();
 
 const newPassword = ref('');
 const confirmPassword = ref('');
@@ -71,7 +72,10 @@ async function changePassword() {
             theme: "colored"
         })
     }).catch((error) => {
-        console.log(error)
+        if (error.response.status === 401) {
+            window.localStorage.clear();
+            router.push("/login");
+        }
     })
 
 }

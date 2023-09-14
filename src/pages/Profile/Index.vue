@@ -1,6 +1,6 @@
 <template>
     <Transition>
-        <DeleteAddress v-if="deleteAddressIsShown" @close="closeDeleteAddress" @exclude="deleteAddress"/>
+        <DeleteAddress v-if="deleteAddressIsShown" @close="closeDeleteAddress" @exclude="deleteAddress" />
     </Transition>
     <Transition>
         <ModalProfileEdit v-if="editIsShown" @close="closeEditModal" :user-data="userData" />
@@ -61,11 +61,12 @@ import ModalPasswordChange from './components/ModalPasswordChange.vue';
 
 import { api } from '../../services';
 import { toast } from 'vue3-toastify';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
 import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const editIsShown = ref(false);
 const passwordChangeIsShown = ref(false);
@@ -86,7 +87,10 @@ async function getProfile() {
     }).then(async ({ data }) => {
         userData.value = data;
     }).catch((error) => {
-        console.log(error)
+        if (error.response.status === 401) {
+            window.localStorage.clear();
+            router.push("/login");
+        }
     })
 }
 
@@ -102,7 +106,10 @@ async function deleteAddress() {
             theme: "colored"
         })
     }).catch((error) => {
-        console.log(error);
+        if (error.response.status === 401) {
+            window.localStorage.clear();
+            router.push("/login");
+        }
     })
 }
 

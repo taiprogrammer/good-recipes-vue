@@ -67,7 +67,10 @@ async function handleSaveProfileChanges() {
             router.go(0);
         }, 5000)
     }).catch((error) => {
-        console.log(error)
+        if (error.response.status === 401) {
+            window.localStorage.clear();
+            router.push("/login");
+        }
     })
 }
 

@@ -77,6 +77,9 @@ import { api } from '../../services/index.js';
 import { QuillEditor } from '@vueup/vue-quill';
 import { PhPencil, PhNotepad } from '@phosphor-icons/vue';
 import { toast } from 'vue3-toastify';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const nome = ref("");
 const horas = ref(0);
@@ -144,7 +147,10 @@ async function sendRecipe(event) {
             theme: "colored"
         })
     }).catch((error) => {
-        console.log(error);
+        if (error.response.status === 401) {
+            window.localStorage.clear();
+            router.push("/login");
+        }
     })
 }
 </script>

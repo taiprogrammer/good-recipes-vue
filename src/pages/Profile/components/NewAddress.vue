@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { defineEmits, ref } from 'vue';
 import { api } from '../../../services';
@@ -46,6 +46,7 @@ import { PhArrowLeft } from '@phosphor-icons/vue';
 const emit = defineEmits(['back']);
 
 const route = useRoute();
+const router = useRouter();
 
 const cep = ref('')
 const logradouro = ref('')
@@ -86,7 +87,10 @@ async function addAddress() {
             theme: "colored"
         })
     }).catch((error) => {
-        console.log(error);
+        if (error.response.status === 401) {
+            window.localStorage.clear();
+            router.push("/login");
+        }
     })
 }
 
@@ -115,6 +119,7 @@ form {
     width: 90%;
     margin: 1rem 0.5rem;
 }
+
 .title {
     margin: 1rem 0;
     color: var(--textMedium);
@@ -126,7 +131,7 @@ form {
     flex-direction: column;
 }
 
-.field + .field {
+.field+.field {
     margin-top: 1rem;
 }
 

@@ -8,13 +8,9 @@
         <template v-else>
             <div class="container" v-if="recipes.length > 0">
                 <div v-for="(recipe, key) in recipes" :key="key">
-                    <RecipeCard 
-                        :id="recipe.receita_id" 
-                        :imagem-url="recipe.imagem" 
-                        :nome="recipe.nome"
+                    <RecipeCard :id="recipe.receita_id" :imagem-url="recipe.imagem" :nome="recipe.nome"
                         :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
-                        :porcoes="recipe.porcoes" 
-                    />
+                        :porcoes="recipe.porcoes" />
                 </div>
             </div>
             <div class="no-recipe-container" v-else>
@@ -33,11 +29,12 @@ import Sidebar from '../../components/Sidebar.vue';
 import MyRecipeCard from '../../components/MyRecipeCard.vue';
 
 import { api } from '../../services';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
 import RecipeCard from '../../components/RecipeCard.vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const recipes = ref(null);
 const isLoading = ref(true);
@@ -57,7 +54,10 @@ async function getMyRecipes() {
         }, 1500)
 
     }).catch((error) => {
-        console.log(error);
+        if (error.response.status === 401) {
+            window.localStorage.clear();
+            router.push("/login");
+        }
     })
 }
 

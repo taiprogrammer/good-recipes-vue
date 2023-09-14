@@ -49,7 +49,7 @@ function logout() {
 <style lang="css" scoped>
 nav {
     padding: 2rem;
-    width: fit-content;
+    width: 15.625rem;
     height: fit-content;
     background: var(--gray090);
 

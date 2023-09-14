@@ -36,6 +36,7 @@
 import { api } from '../services';
 import { onBeforeMount, ref } from 'vue';
 import { PhHeart, PhTimer, PhForkKnife, PhEye } from '@phosphor-icons/vue'
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
     nome: String,
@@ -46,6 +47,8 @@ const props = defineProps({
     quantidade: Number,
     favoriteId: Number,
 })
+
+const router = useRouter();
 
 const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
 const userId = window.localStorage.getItem('userId') ? JSON.parse(window.localStorage.getItem('userId')) : null;
@@ -77,7 +80,10 @@ async function getUserLoggedFavorites() {
         }).then(async ({ data }) => {
             userFavorites.value = await data;
         }).catch((error) => {
-            console.log(error);
+            if (error.response.status === 401) {
+                window.localStorage.clear();
+                router.push("/login");
+            }
         })
     }
 }
@@ -96,7 +102,10 @@ async function createFavorite() {
         }).then(async ({ data }) => {
             isFavorite.value = true
         }).catch((error) => {
-            console.log(error);
+            if (error.response.status === 401) {
+                window.localStorage.clear();
+                router.push("/login");
+            }
         })
     }
 }
@@ -113,7 +122,10 @@ async function removeFavorite() {
         }).then(async ({ data }) => {
             isFavorite.value = false;
         }).catch((error) => {
-            console.log(error);
+            if (error.response.status === 401) {
+                window.localStorage.clear();
+                router.push("/login");
+            }
         })
     }
 }
@@ -160,6 +172,7 @@ onBeforeMount(async () => {
 img {
     height: 300px;
     max-width: 295px;
+    width: 280px;
     object-fit: cover;
 }
 

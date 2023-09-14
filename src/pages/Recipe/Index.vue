@@ -7,35 +7,35 @@
         </div>
         <Transition v-else>
             <div class="container">
-            <h1>{{ recipe.nome }}</h1>
-            <div class="box-recipe">
-                <div class="container-cover">
-                    <img v-if="recipe.imagem === null" src="../../assets/no-image/cover.png" alt="Receita sem imagem">
-                    <img v-else :src="`http://localhost:8080/${recipe.imagem}`" :alt="recipe.nome">
-                    <div>
-                        <p>
-                            <PhTimer />
-                            {{ `${recipe.horas}:${recipe.minutos == 0 ? '00' :
-                                recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}` }}
-                        </p>
-                        <p>
-                            <PhForkKnife />
-                            {{ recipe.porcoes == 1 ? `${recipe.porcoes} porção` : `${recipe.porcoes} porções` }}
-                        </p>
+                <h1>{{ recipe.nome }}</h1>
+                <div class="box-recipe">
+                    <div class="container-cover">
+                        <img v-if="recipe.imagem === null" src="../../assets/no-image/cover.png" alt="Receita sem imagem">
+                        <img v-else :src="`http://localhost:8080/${recipe.imagem}`" :alt="recipe.nome">
+                        <div>
+                            <p>
+                                <PhTimer />
+                                {{ `${recipe.horas}:${recipe.minutos == 0 ? '00' :
+                                    recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}` }}
+                            </p>
+                            <p>
+                                <PhForkKnife />
+                                {{ recipe.porcoes == 1 ? `${recipe.porcoes} porção` : `${recipe.porcoes} porções` }}
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="container-info">
-                    <h2>Ingredientes</h2>
-                    <div class="ingredientes">
-                        <ul v-html="recipe.ingredientes"></ul>
-                    </div>
-                    <h2>Modo de preparo</h2>
-                    <div class="modo-preparo">
-                        <ul v-html="recipe.modoPreparo"></ul>
+                    <div class="container-info">
+                        <h2>Ingredientes</h2>
+                        <div class="ingredientes">
+                            <ul v-html="recipe.ingredientes"></ul>
+                        </div>
+                        <h2>Modo de preparo</h2>
+                        <div class="modo-preparo">
+                            <ul v-html="recipe.modoPreparo"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </Transition>
     </main>
     <Footer />
@@ -47,12 +47,13 @@ import Footer from '../../components/Footer.vue';
 import Topic from '../../components/Topic.vue';
 
 import { api } from '../../services';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
 import { PhForkKnife, PhTimer } from '@phosphor-icons/vue';
 import Loader from '../../components/Loader.vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const recipe = ref(null);
 
@@ -66,7 +67,10 @@ async function getRecipe() {
             }
         })
         .catch((error) => {
-            console.log(error)
+            if (error.response.status === 401) {
+                window.localStorage.clear();
+                router.push("/login");
+            }
         })
 }
 

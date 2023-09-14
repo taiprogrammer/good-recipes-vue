@@ -10,16 +10,11 @@
         </div>
         <div class="container-recipes" v-else-if="mostRecentsRecipes !== null">
             <div v-for="(recipe, key) in mostRecentsRecipes">
-                <RecipeCard 
-                    :imagem-url="recipe.receita.imagem" 
-                    :nome="recipe.receita.nome"
-                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.receita.segundos}`"
-                    :porcoes="recipe.receita.porcoes" 
-                    :id="recipe.receita.receita_id" 
-                    :quantidade="recipe.favorito.quantidade"
-                    :favorite-id="recipe.favoritoId"
-                    :key="`${key}`" 
-                    />
+                <RecipeCard :imagem-url="recipe.receita.imagem" :nome="recipe.receita.nome"
+                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? 
+                        '00' : ecipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.receita.segundos}`"
+                    :porcoes="recipe.receita.porcoes" :id="recipe.receita.receita_id"
+                    :quantidade="recipe.favorito.quantidade" :favorite-id="recipe.favoritoId" :key="`${key}`" />
             </div>
         </div>
         <div class="divider"></div>
@@ -29,16 +24,11 @@
         </div>
         <div class="container-recipes" v-else-if="mostFavoritesRecipes !== null">
             <div v-for="(recipe, key) in mostFavoritesRecipes">
-                <RecipeCard
-                    :imagem-url="recipe.receita.imagem" 
-                    :nome="recipe.receita.nome"
-                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.receita.segundos}`"
-                    :porcoes="recipe.receita.porcoes" 
-                    :id="recipe.receita.receita_id" 
-                    :quantidade="recipe.favorito.quantidade"
-                    :favorite-id="recipe.favoritoId"
-                    :key="`${key}`"
-                />
+                <RecipeCard :imagem-url="recipe.receita.imagem" :nome="recipe.receita.nome"
+                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? 
+                        '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.receita.segundos}`"
+                    :porcoes="recipe.receita.porcoes" :id="recipe.receita.receita_id"
+                    :quantidade="recipe.favorito.quantidade" :favorite-id="recipe.favoritoId" :key="`${key}`" />
             </div>
         </div>
     </main>
@@ -55,6 +45,9 @@ import RecipeCard from '../../components/RecipeCard.vue';
 
 import { ref, onMounted } from 'vue';
 import { api } from '../../services/index';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const isLoadingRecents = ref(true);
 const isLoadingFavorites = ref(true);
@@ -71,7 +64,10 @@ async function getMostRecentsRecipes() {
             }, 2500)
         }
     }).catch((error) => {
-        console.log(error)
+        if (error.response.status === 401) {
+            window.localStorage.clear();
+            router.push("/login");
+        }
     })
 }
 
@@ -85,7 +81,10 @@ async function getMostFavoritesRecipes() {
             }, 2500)
         }
     }).catch((error) => {
-        console.log(error);
+        if (error.response.status === 401) {
+            window.localStorage.clear();
+            router.push("/login");
+        }
     })
 }
 

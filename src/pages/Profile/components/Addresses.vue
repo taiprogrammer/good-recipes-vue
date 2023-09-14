@@ -1,21 +1,13 @@
 <template>
     <div v-if="showLoader" class="loader">
-        <Loader/>
+        <Loader />
     </div>
     <div class="container">
         <template v-if="addresses !== null">
             <div class="address" v-for="(address, key) in addresses">
-                <AddressCard 
-                    :key="key" 
-                    :rua="address.logradouro" 
-                    :numero="address.numero" 
-                    :cep="address.cep" 
-                    :cidade="address.cidade"
-                    :pais="address.pais" 
-                    :id="address.endereco_id"
-                    @edit="goToEdit(address)" 
-                    @delete="deleteAddress"
-                />
+                <AddressCard :key="key" :rua="address.logradouro" :numero="address.numero" :cep="address.cep"
+                    :cidade="address.cidade" :pais="address.pais" :id="address.endereco_id" @edit="goToEdit(address)"
+                    @delete="deleteAddress" />
             </div>
         </template>
         <template v-if="noAddresses">
@@ -34,7 +26,7 @@
 import AddressCard from './AddressCard.vue';
 import Loader from '../../../components/Loader.vue';
 
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { api } from '../../../services';
 import { PhArrowRight } from '@phosphor-icons/vue';
 import { defineEmits, onBeforeMount, ref } from 'vue';
@@ -42,6 +34,7 @@ import { defineEmits, onBeforeMount, ref } from 'vue';
 const emit = defineEmits(['newAddress', 'edit', 'delete']);
 
 const route = useRoute();
+const router = useRouter();
 
 const addresses = ref(null);
 const noAddresses = ref(false);
@@ -78,7 +71,10 @@ async function getAddresses() {
                 noAddresses.value = true;
             }
         }).catch((error) => {
-            console.log(error);
+            if (error.response.status === 401) {
+                window.localStorage.clear();
+                router.push("/login");
+            }
         })
 }
 
@@ -91,9 +87,11 @@ onBeforeMount(() => {
 .address+.address {
     margin-top: 1rem;
 }
+
 .loader {
     padding-bottom: 3rem;
 }
+
 footer button {
     width: 94%;
 
