@@ -1,10 +1,10 @@
 <template>
-    <div class="loading">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+  <div class="loading">
+    <span />
+    <span />
+    <span />
+    <span />
+  </div>
 </template>
 
 <script setup>

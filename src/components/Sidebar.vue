@@ -1,32 +1,32 @@
 <template>
-    <nav>
-        <header>
-            <PhUserCircleGear size="40" />
-            <h3>Olá {{ username }}</h3>
-        </header>
-        <div class="options">
-            <RouterLink :to="`/my-favorites/${userId}`">
-                <PhHeart />
-                <span>Meus favoritos</span>
-            </RouterLink>
-            <RouterLink to="/new-recipe">
-                <PhNotepad />
-                <span>Envie sua receita</span>
-            </RouterLink>
-            <RouterLink :to="`/my-recipes/${userId}`">
-                <PhFolderNotchOpen />
-                <span>Minhas receitas</span>
-            </RouterLink>
-            <RouterLink :to="`/my-profile/${userId}`">
-                <PhClipboardText />
-                <span>Meus dados</span>
-            </RouterLink>
-            <a @click="logout">
-                <PhSignOut />
-                <span>Sair</span>
-            </a>
-        </div>
-    </nav>
+  <nav>
+    <header>
+      <PhUserCircleGear size="40" />
+      <h3>Olá {{ username }}</h3>
+    </header>
+    <div class="options">
+      <RouterLink :to="`/my-favorites/${userId}`">
+        <PhHeart />
+        <span>Meus favoritos</span>
+      </RouterLink>
+      <RouterLink to="/new-recipe">
+        <PhNotepad />
+        <span>Envie sua receita</span>
+      </RouterLink>
+      <RouterLink :to="`/my-recipes/${userId}`">
+        <PhFolderNotchOpen />
+        <span>Minhas receitas</span>
+      </RouterLink>
+      <RouterLink :to="`/my-profile/${userId}`">
+        <PhClipboardText />
+        <span>Meus dados</span>
+      </RouterLink>
+      <a @click="logout">
+        <PhSignOut />
+        <span>Sair</span>
+      </a>
+    </div>
+  </nav>
 </template>
 
 <script setup>

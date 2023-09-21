@@ -1,35 +1,38 @@
 <template>
-    <header>
-        <div class="container">
-            <RouterLink to="/">
-                <img src="../assets/logo-light.png" alt="Good Recipes Logo">
-            </RouterLink>
-            <nav v-if="!logged">
-                <RouterLink to="/signup">
-                    <PhUserPlus />
-                    <span>Cadastre - se</span>
-                </RouterLink>
-                <RouterLink to="/login">
-                    <PhSignIn />
-                    <span>Entrar</span>
-                </RouterLink>
-            </nav>
-            <nav v-else>
-                <RouterLink :to="`/my-recipes/${userId}`">
-                    <PhNotepad />
-                    <span>Minhas receitas</span>
-                </RouterLink>
-                <RouterLink :to="`/my-favorites/${userId}`">
-                    <PhHeart />
-                    <span>Meus favoritos</span>
-                </RouterLink>
-                <RouterLink :to="`/my-profile/${userId}`">
-                    <PhUserGear />
-                    <span>Minha conta</span>
-                </RouterLink>
-            </nav>
-        </div>
-    </header>
+  <header>
+    <div class="container">
+      <RouterLink to="/">
+        <img
+          src="../assets/logo-light.png"
+          alt="Good Recipes Logo"
+        >
+      </RouterLink>
+      <nav v-if="!logged">
+        <RouterLink to="/signup">
+          <PhUserPlus />
+          <span>Cadastre - se</span>
+        </RouterLink>
+        <RouterLink to="/login">
+          <PhSignIn />
+          <span>Entrar</span>
+        </RouterLink>
+      </nav>
+      <nav v-else>
+        <RouterLink :to="`/my-recipes/${userId}`">
+          <PhNotepad />
+          <span>Minhas receitas</span>
+        </RouterLink>
+        <RouterLink :to="`/my-favorites/${userId}`">
+          <PhHeart />
+          <span>Meus favoritos</span>
+        </RouterLink>
+        <RouterLink :to="`/my-profile/${userId}`">
+          <PhUserGear />
+          <span>Minha conta</span>
+        </RouterLink>
+      </nav>
+    </div>
+  </header>
 </template>
 
 <script setup>

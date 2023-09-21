@@ -73,11 +73,11 @@ import Footer from '../../components/Footer.vue';
 import Sidebar from '../../components/Sidebar.vue';
 
 import { ref } from 'vue';
+import { toast } from 'vue3-toastify';
+import { useRouter } from 'vue-router';
 import { api } from '../../services/index.js';
 import { QuillEditor } from '@vueup/vue-quill';
 import { PhPencil, PhNotepad } from '@phosphor-icons/vue';
-import { toast } from 'vue3-toastify';
-import { useRouter } from 'vue-router';
 
 const router = useRouter();
 

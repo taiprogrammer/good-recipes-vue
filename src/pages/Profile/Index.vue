@@ -61,8 +61,8 @@ import ModalPasswordChange from './components/ModalPasswordChange.vue';
 
 import { api } from '../../services';
 import { toast } from 'vue3-toastify';
-import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
 
 const route = useRoute();

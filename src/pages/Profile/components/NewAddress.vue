@@ -37,10 +37,10 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { defineEmits, ref } from 'vue';
 import { api } from '../../../services';
+import { useRoute, useRouter } from 'vue-router';
 import { PhArrowLeft } from '@phosphor-icons/vue';
 
 const emit = defineEmits(['back']);

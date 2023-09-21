@@ -8,9 +8,14 @@
         <template v-else>
             <div class="container" v-if="recipes.length > 0">
                 <div v-for="(recipe, key) in recipes" :key="key">
-                    <RecipeCard :id="recipe.receita_id" :imagem-url="recipe.imagem" :nome="recipe.nome"
-                        :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
-                        :porcoes="recipe.porcoes" />
+                    <RecipeCard 
+                        :id="recipe.receita.receita_id" 
+                        :imagem-url="recipe.receita.imagem" 
+                        :nome="recipe.receita.nome"
+                        :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.segundos}`"
+                        :porcoes="recipe.receita.porcoes"
+                        :favorite-id="recipe.favorito_id"
+                        :quantidade="recipe.quantidade" />
                 </div>
             </div>
             <div class="no-recipe-container" v-else>
@@ -26,12 +31,11 @@ import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 import Loader from '../../components/Loader.vue';
 import Sidebar from '../../components/Sidebar.vue';
-import MyRecipeCard from '../../components/MyRecipeCard.vue';
+import RecipeCard from '../../components/RecipeCard.vue';
 
 import { api } from '../../services';
-import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
-import RecipeCard from '../../components/RecipeCard.vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();

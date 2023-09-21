@@ -1,46 +1,88 @@
 <template>
-    <div>
-        <div ref="container" class="keen-slider container">
-            <div class="keen-slider__slide number-slide1">
-                <img src="../assets/carousel/food-one.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide2">
-                <img src="../assets/carousel/food-two.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide3">
-                <img src="../assets/carousel/food-three.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide4">
-                <img src="../assets/carousel/food-four.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide5">
-                <img src="../assets/carousel/food-five.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide6">
-                <img src="../assets/carousel/food-six.jpg" alt="">
-            </div>
-        </div>
-        <div ref="thumbnail" class="keen-slider thumbnail">
-            <div class="keen-slider__slide number-slide1">
-                <img src="../assets/carousel/food-one.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide2">
-                <img src="../assets/carousel/food-two.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide3">
-                <img src="../assets/carousel/food-three.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide4">
-                <img src="../assets/carousel/food-four.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide5">
-                <img src="../assets/carousel/food-five.jpg" alt="">
-            </div>
-            <div class="keen-slider__slide number-slide6">
-                <img src="../assets/carousel/food-six.jpg" alt="">
-            </div>
-        </div>
+  <div>
+    <div
+      ref="container"
+      class="keen-slider container"
+    >
+      <div class="keen-slider__slide number-slide1">
+        <img
+          src="../assets/carousel/food-one.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide2">
+        <img
+          src="../assets/carousel/food-two.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide3">
+        <img
+          src="../assets/carousel/food-three.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide4">
+        <img
+          src="../assets/carousel/food-four.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide5">
+        <img
+          src="../assets/carousel/food-five.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide6">
+        <img
+          src="../assets/carousel/food-six.jpg"
+          alt=""
+        >
+      </div>
     </div>
+    <div
+      ref="thumbnail"
+      class="keen-slider thumbnail"
+    >
+      <div class="keen-slider__slide number-slide1">
+        <img
+          src="../assets/carousel/food-one.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide2">
+        <img
+          src="../assets/carousel/food-two.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide3">
+        <img
+          src="../assets/carousel/food-three.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide4">
+        <img
+          src="../assets/carousel/food-four.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide5">
+        <img
+          src="../assets/carousel/food-five.jpg"
+          alt=""
+        >
+      </div>
+      <div class="keen-slider__slide number-slide6">
+        <img
+          src="../assets/carousel/food-six.jpg"
+          alt=""
+        >
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -29,10 +29,10 @@
 <script setup>
 import Modal from '../../../components/Modal.vue';
 
-import { defineEmits, ref, defineProps } from 'vue';
+import { toast } from 'vue3-toastify';
 import { api } from '../../../services';
 import { useRoute, useRouter } from 'vue-router';
-import { toast } from 'vue3-toastify';
+import { defineEmits, ref, defineProps } from 'vue';
 
 const props = defineProps({
     userData: Object

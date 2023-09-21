@@ -8,9 +8,13 @@
         <template v-else>
             <div class="container" v-if="myFavorites.length > 0">
                 <div v-for="(recipe, key) in myFavorites" :key="key">
-                    <RecipeCard :id="recipe.receita_id" :imagem-url="recipe.imagem"
+                    <RecipeCard 
+                        :id="recipe.receita_id" 
+                        :imagem-url="recipe.imagem"
                         :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
-                        :porcoes="recipe.porcoes" />
+                        :porcoes="recipe.porcoes"
+                        :favorite-id="recipe.favorito_id"
+                        :quantidade="recipe.quantidade" />
                 </div>
             </div>
         </template>
@@ -18,14 +22,13 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
 import { api } from '../../services';
+import { onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import Header from '../../components/Header.vue';
 import Loader from '../../components/Loader.vue';
 import Sidebar from '../../components/Sidebar.vue';
-import MyRecipeCard from '../../components/MyRecipeCard.vue';
 import RecipeCard from '../../components/RecipeCard.vue';
 
 const route = useRoute();

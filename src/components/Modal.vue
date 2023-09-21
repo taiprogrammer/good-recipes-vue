@@ -1,25 +1,28 @@
 <template>
-        <div class="modal_overlay">
-                <div class="modal">
-                    <header>
-                        <slot name="header"></slot>
-                        <button @click="closeModal">
-                            <PhXCircle class="close" size="25" />
-                        </button>
-                    </header>
-                    <section>
-                        <slot name="content"></slot>
-                    </section>
-                    <footer>
-                        <slot name="footer"></slot>
-                    </footer>
-                </div>
-        </div>
+  <div class="modal_overlay">
+    <div class="modal">
+      <header>
+        <slot name="header" />
+        <button @click="closeModal">
+          <PhXCircle
+            class="close"
+            size="25"
+          />
+        </button>
+      </header>
+      <section>
+        <slot name="content" />
+      </section>
+      <footer>
+        <slot name="footer" />
+      </footer>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { PhXCircle } from '@phosphor-icons/vue';
 import { defineEmits } from 'vue';
+import { PhXCircle } from '@phosphor-icons/vue';
 
 const emit = defineEmits(['close']);
 

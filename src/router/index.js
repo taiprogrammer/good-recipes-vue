@@ -4,9 +4,9 @@ import Home from "../pages/Home/Index.vue";
 import Login from "../pages/Login/Index.vue";
 import Signup from "../pages/Signup/Index.vue";
 import Recipe from "../pages/Recipe/Index.vue";
+import Profile from "../pages/Profile/Index.vue";
 import NewRecipe from "../pages/NewRecipe/Index.vue";
 import MyRecipes from "../pages/MyRecipes/Index.vue";
-import Profile from "../pages/Profile/Index.vue";
 import MyFavorites from "../pages/MyFavorites/Index.vue";
 
 const routes = [

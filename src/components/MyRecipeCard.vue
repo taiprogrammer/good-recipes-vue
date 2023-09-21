@@ -1,23 +1,33 @@
 <template>
-    <div class="wrapper">
-        <img v-if="imagem === null" src="../assets/no-image/cover.png" alt="Receita sem imagem">
-        <img v-else :src="`http://localhost:8080/${imagem}`" :alt="nome">
-        <div class="info">
-            <p>{{ nome }}</p>
-            <div class="icon-desc">
-                <PhTimer />
-                <span>{{ tempo }}</span>
-            </div>
-            <div class="icon-desc">
-                <PhForkKnife />
-                <span>{{ porcoes }}</span>
-            </div>
-            <div class="icon-desc">
-                <PhEye />
-                <RouterLink :to="`/recipe/${id}`">Visualizar</RouterLink>
-            </div>
-        </div>
+  <div class="wrapper">
+    <img
+      v-if="imagem === null"
+      src="../assets/no-image/cover.png"
+      alt="Receita sem imagem"
+    >
+    <img
+      v-else
+      :src="`http://localhost:8080/${imagem}`"
+      :alt="nome"
+    >
+    <div class="info">
+      <p>{{ nome }}</p>
+      <div class="icon-desc">
+        <PhTimer />
+        <span>{{ tempo }}</span>
+      </div>
+      <div class="icon-desc">
+        <PhForkKnife />
+        <span>{{ porcoes }}</span>
+      </div>
+      <div class="icon-desc">
+        <PhEye />
+        <RouterLink :to="`/recipe/${id}`">
+          Visualizar
+        </RouterLink>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup>

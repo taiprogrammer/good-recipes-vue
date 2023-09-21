@@ -26,8 +26,8 @@
 import AddressCard from './AddressCard.vue';
 import Loader from '../../../components/Loader.vue';
 
-import { useRoute, useRouter } from 'vue-router';
 import { api } from '../../../services';
+import { useRoute, useRouter } from 'vue-router';
 import { PhArrowRight } from '@phosphor-icons/vue';
 import { defineEmits, onBeforeMount, ref } from 'vue';
 

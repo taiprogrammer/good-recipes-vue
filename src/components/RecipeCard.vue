@@ -1,42 +1,62 @@
 <template>
-    <div class="wrapper">
-        <div class="container">
-            <div class="container-cover">
-                <img v-if="imagemUrl === null" src="../assets/no-image/cover.png" alt="Receita sem imagem">
-                <img v-else :src="`http://localhost:8080/${imagemUrl}`" :alt="nome">
-            </div>
+  <div class="wrapper">
+    <div class="container">
+      <div class="container-cover">
+        <img
+          v-if="imagemUrl === null"
+          src="../assets/no-image/cover.png"
+          alt="Receita sem imagem"
+        >
+        <img
+          v-else
+          :src="`http://localhost:8080/${imagemUrl}`"
+          :alt="nome"
+        >
+      </div>
 
-            <PhHeart v-if="!isFavorite" class="favorite-blank" size="30" weight="regular" @click="createFavorite" />
-            <PhHeart v-else class="favorite-blank" size="30" weight="fill" @click="removeFavorite" />
+      <PhHeart
+        v-if="!isFavorite"
+        class="favorite-blank"
+        size="30"
+        weight="regular"
+        @click="createFavorite"
+      />
+      <PhHeart
+        v-else
+        class="favorite-blank"
+        size="30"
+        weight="fill"
+        @click="removeFavorite"
+      />
 
-            <div class="info-container">
-                <h2>{{ nome }}</h2>
-                <div class="info">
-                    <p>
-                        <PhTimer />
-                        <span>{{ tempo }}</span>
-                    </p>
-                    <p>
-                        <PhForkKnife />
-                        <span>{{ porcoes <= 1 ? `${porcoes} porção` : `${porcoes} porções` }}</span>
-                    </p>
-                    <p>
-                        <PhEye />
-                        <span>
-                            <RouterLink :to="`/recipe/${id}`">Ver mais</RouterLink>
-                        </span>
-                    </p>
-                </div>
-            </div>
+      <div class="info-container">
+        <h2>{{ nome }}</h2>
+        <div class="info">
+          <p>
+            <PhTimer />
+            <span>{{ tempo }}</span>
+          </p>
+          <p>
+            <PhForkKnife />
+            <span>{{ porcoes <= 1 ? `${porcoes} porção` : `${porcoes} porções` }}</span>
+          </p>
+          <p>
+            <PhEye />
+            <span>
+              <RouterLink :to="`/recipe/${id}`">Ver mais</RouterLink>
+            </span>
+          </p>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup>
 import { api } from '../services';
+import { useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
 import { PhHeart, PhTimer, PhForkKnife, PhEye } from '@phosphor-icons/vue'
-import { useRouter } from 'vue-router';
 
 const props = defineProps({
     nome: String,
@@ -56,6 +76,7 @@ const userId = window.localStorage.getItem('userId') ? JSON.parse(window.localSt
 const userFavorites = ref(null);
 const isFavorite = ref(false);
 const favoritoUsuarioId = ref(null);
+const quantity = ref(null)
 
 async function verifyFavorites() {
     if (userFavorites.value !== null) {
@@ -63,6 +84,7 @@ async function verifyFavorites() {
             if (favorite.receita_id === props.id) {
                 isFavorite.value = true;
                 favoritoUsuarioId.value = favorite.favorito_usuario_id;
+                quantity.value = favorite.quantidade;
             }
         })
     }
@@ -91,7 +113,8 @@ async function getUserLoggedFavorites() {
 async function createFavorite() {
     const paylod = {
         favoritoId: props.favoriteId,
-        usuarioId: userId
+        usuarioId: userId,
+        quantidade: quantity.value + 1
     }
 
     if (isFavorite.value === false) {
@@ -111,11 +134,13 @@ async function createFavorite() {
 }
 
 async function removeFavorite() {
+    const payload = {
+        favoritoUsuarioId: favoritoUsuarioId.value,
+        quantidade: quantity.value - 1
+    }
+
     if (isFavorite.value === true) {
-        await api.put(`/favorite/${props.favoriteId}`, {
-            favoritoUsuarioId: favoritoUsuarioId.value,
-            quantidade: Number(props.quantidade - 1)
-        }, {
+        await api.put(`/favorite/${props.favoriteId}`, payload, {
             headers: {
                 "x-access-token": token
             }

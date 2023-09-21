@@ -42,15 +42,15 @@
 </template>
 
 <script setup>
+import Topic from '../../components/Topic.vue';
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
-import Topic from '../../components/Topic.vue';
 
 import { api } from '../../services';
-import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
-import { PhForkKnife, PhTimer } from '@phosphor-icons/vue';
+import { useRoute, useRouter } from 'vue-router';
 import Loader from '../../components/Loader.vue';
+import { PhForkKnife, PhTimer } from '@phosphor-icons/vue';
 
 const route = useRoute();
 const router = useRouter();

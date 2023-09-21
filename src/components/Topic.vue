@@ -1,14 +1,14 @@
 <template>
-    <section>
-        <div class="container">
-            <a href="#">Sobremesas</a>
-            <a href="#">Carnes</a>
-            <a href="#">Massas</a>
-            <a href="#">Saladas e molhos</a>
-            <a href="#">Vegano</a>
-            <a href="#">Todas as receitas</a>
-        </div>
-    </section>
+  <section>
+    <div class="container">
+      <a href="#">Sobremesas</a>
+      <a href="#">Carnes</a>
+      <a href="#">Massas</a>
+      <a href="#">Saladas e molhos</a>
+      <a href="#">Vegano</a>
+      <a href="#">Todas as receitas</a>
+    </div>
+  </section>
 </template>
 
 <script setup>

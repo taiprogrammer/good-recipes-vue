@@ -1,90 +1,93 @@
 <template>
-    <footer>
-        <div class="wrapper">
-            <div class="content">
-                <div>
-                    <h1>Categorias</h1>
-                    <section>
-                        <p>
-                            <RouterLink to="/">
-                                Sobremesas
-                            </RouterLink>
-                        </p>
-                        <p>
-                            <RouterLink to="/">
-                                Carnes
-                            </RouterLink>
-                        </p>
-                        <p>
-                            <RouterLink to="/">
-                                Massas
-                            </RouterLink>
-                        </p>
-                        <p>
-                            <RouterLink to="/">
-                                Saladas e molhos
-                            </RouterLink>
-                        </p>
-                        <p>
-                            <RouterLink to="/">
-                                Veganos
-                            </RouterLink>
-                        </p>
-                    </section>
-                </div>
-                <div>
-                    <h1>Sobre</h1>
-                    <section>
-                        <p>
-                            <RouterLink to="/">
-                                Quem somos
-                            </RouterLink>
-                        </p>
-                        <p>
-                            <RouterLink to="/">
-                                Política de privacidade
-                            </RouterLink>
-                        </p>
-                        <p>
-                            <RouterLink to="/">
-                                Termos de uso
-                            </RouterLink>
-                        </p>
-                        <p>
-                            <RouterLink to="/">
-                                Contato
-                            </RouterLink>
-                        </p>
-                    </section>
-                </div>
-                <div>
-                    <h1>Disponível em</h1>
-                    <section>
-                        <p>
-                            <PhAppStoreLogo weight="fill" />
-                            <RouterLink to="/">
-                                App Store
-                            </RouterLink>
-                        </p>
-                        <p>
-                            <PhGooglePlayLogo weight="fill" />
-                            <RouterLink to="/">
-                                Google Play
-                            </RouterLink>
-                        </p>
-                        <p>
-                            <PhInstagramLogo weight="fill" />
-                            <PhTwitterLogo weight="fill" />
-                            <PhFacebookLogo weight="fill" />
-                            <PhPinterestLogo weight="fill" />
-                            <PhYoutubeLogo weight="fill" />
-                        </p>
-                    </section>
-                    <img src="../assets/logo-dark-footer.png" alt="Logo Good Recipes">
-                </div>
-            </div>
+  <footer>
+    <div class="wrapper">
+      <div class="content">
+        <div>
+          <h1>Categorias</h1>
+          <section>
+            <p>
+              <RouterLink to="/">
+                Sobremesas
+              </RouterLink>
+            </p>
+            <p>
+              <RouterLink to="/">
+                Carnes
+              </RouterLink>
+            </p>
+            <p>
+              <RouterLink to="/">
+                Massas
+              </RouterLink>
+            </p>
+            <p>
+              <RouterLink to="/">
+                Saladas e molhos
+              </RouterLink>
+            </p>
+            <p>
+              <RouterLink to="/">
+                Veganos
+              </RouterLink>
+            </p>
+          </section>
         </div>
-    </footer>
+        <div>
+          <h1>Sobre</h1>
+          <section>
+            <p>
+              <RouterLink to="/">
+                Quem somos
+              </RouterLink>
+            </p>
+            <p>
+              <RouterLink to="/">
+                Política de privacidade
+              </RouterLink>
+            </p>
+            <p>
+              <RouterLink to="/">
+                Termos de uso
+              </RouterLink>
+            </p>
+            <p>
+              <RouterLink to="/">
+                Contato
+              </RouterLink>
+            </p>
+          </section>
+        </div>
+        <div>
+          <h1>Disponível em</h1>
+          <section>
+            <p>
+              <PhAppStoreLogo weight="fill" />
+              <RouterLink to="/">
+                App Store
+              </RouterLink>
+            </p>
+            <p>
+              <PhGooglePlayLogo weight="fill" />
+              <RouterLink to="/">
+                Google Play
+              </RouterLink>
+            </p>
+            <p>
+              <PhInstagramLogo weight="fill" />
+              <PhTwitterLogo weight="fill" />
+              <PhFacebookLogo weight="fill" />
+              <PhPinterestLogo weight="fill" />
+              <PhYoutubeLogo weight="fill" />
+            </p>
+          </section>
+          <img
+            src="../assets/logo-dark-footer.png"
+            alt="Logo Good Recipes"
+          >
+        </div>
+      </div>
+    </div>
+  </footer>
 </template>
 
 <script setup>
