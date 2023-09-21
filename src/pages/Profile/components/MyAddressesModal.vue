@@ -7,19 +7,19 @@
             </div>
         </template>
         <template #content>
-            <Addresses 
-                v-if="isAddressesShown" 
-                @new-address="openNewAddressSection" 
+            <Addresses
+                v-if="isAddressesShown"
+                @new-address="openNewAddressSection"
                 @edit="openEditAddress"
-                @delete="deleteAddress" 
+                @delete="deleteAddress"
             />
-            <NewAddress 
-                v-if="isNewAddressShown" 
-                @back="backToAddresses" 
+            <NewAddress
+                v-if="isNewAddressShown"
+                @back="backToAddresses"
             />
-            <EditAddress 
-                v-if="isEditAddressShown" 
-                @back="backMyAddresses" 
+            <EditAddress
+                v-if="isEditAddressShown"
+                @back="backMyAddresses"
                 :address="address"
             />
         </template>
@@ -27,13 +27,12 @@
 </template>
 
 <script setup>
+import { defineEmits, ref } from 'vue';
+import { PhMapPin } from '@phosphor-icons/vue';
 import Addresses from './Addresses.vue';
 import NewAddress from './NewAddress.vue';
 import EditAddress from './EditAddress.vue';
 import Modal from '../../../components/Modal.vue';
-
-import { defineEmits, ref } from 'vue';
-import { PhMapPin } from '@phosphor-icons/vue';
 
 const emit = defineEmits(['close', 'delete']);
 
@@ -44,32 +43,32 @@ const isEditAddressShown = ref(false);
 const address = ref(null);
 
 function deleteAddress(id) {
-    emit('delete', id);
+  emit('delete', id);
 }
 
 function close() {
-    emit('close');
+  emit('close');
 }
 
 function openNewAddressSection() {
-    isAddressesShown.value = false;
-    isNewAddressShown.value = true;
+  isAddressesShown.value = false;
+  isNewAddressShown.value = true;
 }
 
 function backToAddresses() {
-    isNewAddressShown.value = false;
-    isAddressesShown.value = true;
+  isNewAddressShown.value = false;
+  isAddressesShown.value = true;
 }
 
 function openEditAddress(addressProp) {
-    address.value = addressProp;
-    isAddressesShown.value = false;
-    isEditAddressShown.value = true;
+  address.value = addressProp;
+  isAddressesShown.value = false;
+  isEditAddressShown.value = true;
 }
 
 function backMyAddresses() {
-    isEditAddressShown.value = false;
-    isAddressesShown.value = true;
+  isEditAddressShown.value = false;
+  isAddressesShown.value = true;
 }
 </script>
 

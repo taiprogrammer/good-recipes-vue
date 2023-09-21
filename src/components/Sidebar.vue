@@ -31,18 +31,20 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { PhUserCircleGear, PhHeart, PhNotepad, PhFolderNotchOpen, PhClipboardText, PhSignOut } from '@phosphor-icons/vue';
+import {
+  PhUserCircleGear, PhHeart, PhNotepad, PhFolderNotchOpen, PhClipboardText, PhSignOut,
+} from '@phosphor-icons/vue';
 
-const username = window.localStorage.getItem('username') ? JSON.parse(window.localStorage.getItem('username')) : '-'
+const username = window.localStorage.getItem('username') ? JSON.parse(window.localStorage.getItem('username')) : '-';
 const userId = window.localStorage.userId ? JSON.parse(window.localStorage.userId) : null;
 
 const router = useRouter();
 
 function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("username");
-    router.push("/");
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('username');
+  router.push('/');
 }
 </script>
 
@@ -92,7 +94,7 @@ a {
     padding: 1rem 0.5rem;
     text-decoration: none;
     color: var(--green400);
-    
+
     gap: 0.5rem;
     display: flex;
     align-items: center;

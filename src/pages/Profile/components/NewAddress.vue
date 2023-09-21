@@ -39,63 +39,63 @@
 <script setup>
 import { toast } from 'vue3-toastify';
 import { defineEmits, ref } from 'vue';
-import { api } from '../../../services';
 import { useRoute, useRouter } from 'vue-router';
 import { PhArrowLeft } from '@phosphor-icons/vue';
+import api from '../../../services/index';
 
 const emit = defineEmits(['back']);
 
 const route = useRoute();
 const router = useRouter();
 
-const cep = ref('')
-const logradouro = ref('')
-const numero = ref('')
-const cidade = ref('')
-const pais = ref('')
+const cep = ref('');
+const logradouro = ref('');
+const numero = ref('');
+const cidade = ref('');
+const pais = ref('');
 
 async function doCepSearch() {
-    const response = await fetch(`https://viacep.com.br/ws/${cep.value}/json/`);
-    const data = await response.json();
+  const response = await fetch(`https://viacep.com.br/ws/${cep.value}/json/`);
+  const data = await response.json();
 
-    if (data) {
-        logradouro.value = data.logradouro;
-        cidade.value = data.localidade;
-    }
+  if (data) {
+    logradouro.value = data.logradouro;
+    cidade.value = data.localidade;
+  }
 }
 
 async function addAddress() {
-    const userId = route.params.id;
-    const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null
+  const userId = route.params.id;
+  const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
 
-    const payload = {
-        usuarioId: userId,
-        logradouro: logradouro.value,
-        numero: numero.value,
-        cep: cep.value,
-        cidade: cidade.value,
-        pais: pais.value
+  const payload = {
+    usuarioId: userId,
+    logradouro: logradouro.value,
+    numero: numero.value,
+    cep: cep.value,
+    cidade: cidade.value,
+    pais: pais.value,
+  };
+
+  await api.post('/address', payload, {
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(async () => {
+    toast.success('Endereço adicionado com sucesso!', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+  }).catch((error) => {
+    if (error.response.status === 401) {
+      window.localStorage.clear();
+      router.push('/login');
     }
-
-    await api.post(`/address`, payload, {
-        headers: {
-            "x-access-token": token
-        }
-    }).then(async ({ data }) => {
-        toast.success("Endereço adicionado com sucesso!", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
-    }).catch((error) => {
-        if (error.response.status === 401) {
-            window.localStorage.clear();
-            router.push("/login");
-        }
-    })
+  });
 }
 
 function back() {
-    emit('back');
+  emit('back');
 }
 </script>
 

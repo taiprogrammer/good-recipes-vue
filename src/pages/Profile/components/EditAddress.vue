@@ -39,13 +39,13 @@
 <script setup>
 import { toast } from 'vue3-toastify';
 import { defineEmits, ref } from 'vue';
-import { api } from '../../../services';
 import { useRoute, useRouter } from 'vue-router';
 import { PhArrowLeft } from '@phosphor-icons/vue';
+import api from '../../../services/index';
 
 const props = defineProps({
-    address: Object
-})
+  address: Object,
+});
 
 const route = useRoute();
 const router = useRouter();
@@ -59,50 +59,50 @@ const cidade = ref(props.address.cidade);
 const pais = ref(props.address.pais);
 
 async function handleSaveAddress() {
-    const address_id = props.address.endereco_id;
-    const user_id = Number(route.params.id);
-    const token = window.localStorage.getItem("token") ? JSON.parse(window.localStorage.getItem("token")) : null;
+  const addessId = props.address.endereco_id;
+  const userId = Number(route.params.id);
+  const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
 
-    await api.put(`/address/${address_id}`, {
-        usuarioId: user_id,
-        logradouro: logradouro.value,
-        numero: numero.value,
-        cep: cep.value,
-        cidade: cidade.value,
-        pais: pais.value
-    }, {
-        headers: {
-            "x-access-token": token
-        }
-    }).then(async ({ data }) => {
-        toast.success("Endereço atualizado com sucesso. Espere a página recarregar.", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
+  await api.put(`/address/${addessId}`, {
+    usuarioId: userId,
+    logradouro: logradouro.value,
+    numero: numero.value,
+    cep: cep.value,
+    cidade: cidade.value,
+    pais: pais.value,
+  }, {
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(async () => {
+    toast.success('Endereço atualizado com sucesso. Espere a página recarregar.', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
 
-        setTimeout(() => {
-            router.go(0);
-        }, 5000)
-    }).catch((error) => {
-        if (error.response.status === 401) {
-            window.localStorage.clear();
-            router.push("/login");
-        }
-    })
+    setTimeout(() => {
+      router.go(0);
+    }, 5000);
+  }).catch((error) => {
+    if (error.response.status === 401) {
+      window.localStorage.clear();
+      router.push('/login');
+    }
+  });
 }
 
 async function doCepSearch() {
-    const response = await fetch(`https://viacep.com.br/ws/${cep.value}/json/`);
-    const data = await response.json();
+  const response = await fetch(`https://viacep.com.br/ws/${cep.value}/json/`);
+  const data = await response.json();
 
-    if (data) {
-        logradouro.value = data.logradouro;
-        cidade.value = data.localidade;
-    }
+  if (data) {
+    logradouro.value = data.logradouro;
+    cidade.value = data.localidade;
+  }
 }
 
 function back() {
-    emit('back');
+  emit('back');
 }
 </script>
 

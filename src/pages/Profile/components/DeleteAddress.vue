@@ -12,20 +12,19 @@
         </template>
     </Modal>
 </template>
-  
-<script setup>
-import Modal from '../../../components/Modal.vue';
 
+<script setup>
 import { defineEmits } from 'vue';
+import Modal from '../../../components/Modal.vue';
 
 const emit = defineEmits(['close', 'exclude']);
 
 function close() {
-    emit('close');
+  emit('close');
 }
 
 function exclude() {
-    emit('exclude');
+  emit('exclude');
 }
 </script>
 <style lang="css" scoped>

@@ -7,15 +7,27 @@
             <form>
                 <div class="field">
                     <label for="nome">Nome</label>
-                    <input type="text" name="nome" id="nome" v-model="nome">
+                    <input
+                        type="text"
+                        name="nome"
+                        id="nome"
+                        v-model="nome" />
                 </div>
                 <div class="field">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" v-model="email">
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        v-model="email" />
                 </div>
                 <div class="field">
                     <label for="data_nascimento">Data de Nascimento</label>
-                    <input type="date" name="data_nascimento" id="data_nascimento" v-model="dataNascimento">
+                    <input
+                        type="date"
+                        name="data_nascimento"
+                        id="data_nascimento"
+                        v-model="dataNascimento" />
                 </div>
             </form>
         </template>
@@ -27,16 +39,16 @@
 </template>
 
 <script setup>
-import Modal from '../../../components/Modal.vue';
 
 import { toast } from 'vue3-toastify';
-import { api } from '../../../services';
 import { useRoute, useRouter } from 'vue-router';
 import { defineEmits, ref, defineProps } from 'vue';
+import api from '../../../services/index';
+import Modal from '../../../components/Modal.vue';
 
 const props = defineProps({
-    userData: Object
-})
+  userData: Object,
+});
 
 const emit = defineEmits(['close']);
 
@@ -48,34 +60,34 @@ const email = ref(props.userData.email);
 const dataNascimento = ref(props.userData.dataNascimento);
 
 async function handleSaveProfileChanges() {
-    const id = route.params.id;
-    const token = window.localStorage.getItem("token") ? JSON.parse(window.localStorage.getItem('token')) : null;
-    await api.put(`/user/${id}`, {
-        nome: nome.value,
-        email: email.value,
-        dataNascimento: dataNascimento.value
-    }, {
-        headers: {
-            "x-access-token": token
-        }
-    }).then(async ({ data }) => {
-        toast.success("Dados salvos com sucesso! Espere a página recarregar.", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
-        setTimeout(() => {
-            router.go(0);
-        }, 5000)
-    }).catch((error) => {
-        if (error.response.status === 401) {
-            window.localStorage.clear();
-            router.push("/login");
-        }
-    })
+  const { id } = route.params;
+  const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+  await api.put(`/user/${id}`, {
+    nome: nome.value,
+    email: email.value,
+    dataNascimento: dataNascimento.value,
+  }, {
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(async () => {
+    toast.success('Dados salvos com sucesso! Espere a página recarregar.', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+    setTimeout(() => {
+      router.go(0);
+    }, 5000);
+  }).catch((error) => {
+    if (error.response.status === 401) {
+      window.localStorage.clear();
+      router.push('/login');
+    }
+  });
 }
 
 function closeModal() {
-    emit('close');
+  emit('close');
 }
 </script>
 

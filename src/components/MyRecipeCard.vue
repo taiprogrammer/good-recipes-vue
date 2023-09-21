@@ -36,12 +36,12 @@ import { RouterLink } from 'vue-router';
 import { PhEye, PhTimer, PhForkKnife } from '@phosphor-icons/vue';
 
 defineProps({
-    imagem: String,
-    nome: String,
-    tempo: String,
-    porcoes: String,
-    id: Number
-})
+  imagem: String,
+  nome: String,
+  tempo: String,
+  porcoes: String,
+  id: Number,
+});
 
 </script>
 

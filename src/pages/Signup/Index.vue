@@ -19,11 +19,19 @@
                         </div>
                         <div>
                             <label for="confirm_email">Confirme o email</label>
-                            <input type="email" name="confirm_email" id="confirm_email" v-model="email_confirm">
+                            <input
+                                type="email"
+                                name="confirm_email"
+                                id="confirm_email"
+                                v-model="email_confirm" />
                         </div>
                         <div>
                             <label for="data_nascimento">Data de nascimento</label>
-                            <input type="date" name="data_nascimento" id="data_nascimento" v-model="birthdate">
+                            <input
+                                type="date"
+                                name="data_nascimento"
+                                id="data_nascimento"
+                                v-model="birthdate" />
                         </div>
                         <div>
                             <label for="senha">Insira uma senha</label>
@@ -42,55 +50,55 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { toast } from 'vue3-toastify';
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 
-import { ref } from 'vue';
-import { toast } from 'vue3-toastify';
-import { api } from '../../services';
+import api from '../../services/index';
 
 const name = ref('');
 const email = ref('');
-const email_confirm = ref('');
+const emailConfirm = ref('');
 const birthdate = ref('');
 const password = ref('');
 
 async function signUp(event) {
-    event.preventDefault();
-    const payload = {
-        nome: name.value,
-        email: email.value,
-        senha: password.value,
-        dataNascimento: birthdate.value
-    }
+  event.preventDefault();
+  const payload = {
+    nome: name.value,
+    email: email.value,
+    senha: password.value,
+    dataNascimento: birthdate.value,
+  };
 
-    if (nome.value === '' || email.value === '' || birthdate.value === '' || password.value === '') {
-        toast.error("Campos obrigatórios faltantes!", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
-        return
-    }
+  if (name.value === '' || email.value === '' || birthdate.value === '' || password.value === '') {
+    toast.error('Campos obrigatórios faltantes!', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+    return;
+  }
 
-    if (email.value !== email_confirm.value) {
-        toast.error("Emails não coincidem!", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
-        return
-    }
+  if (email.value !== emailConfirm.value) {
+    toast.error('Emails não coincidem!', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+    return;
+  }
 
-    api.post("/user", payload).then(async (response) => {
-        toast.success("Cadastro feito com sucesso!", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
-    }).catch((error) => {
-        toast.error(error, {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
-    })
+  api.post('/user', payload).then(async () => {
+    toast.success('Cadastro feito com sucesso!', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+  }).catch((error) => {
+    toast.error(error, {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+  });
 }
 </script>
 

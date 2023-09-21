@@ -91,11 +91,11 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
 import {
-    PhAppStoreLogo, PhGooglePlayLogo, PhInstagramLogo,
-    PhTwitterLogo, PhFacebookLogo, PhPinterestLogo, PhYoutubeLogo
-} from '@phosphor-icons/vue'
+  PhAppStoreLogo, PhGooglePlayLogo, PhInstagramLogo,
+  PhTwitterLogo, PhFacebookLogo, PhPinterestLogo, PhYoutubeLogo,
+} from '@phosphor-icons/vue';
 </script>
 
 <style lang="css" scoped>

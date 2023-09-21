@@ -7,11 +7,19 @@
             <form>
                 <div class="field">
                     <label for="new_password">Digite a nova senha</label>
-                    <input type="password" name="new_password" id="new_password" v-model="newPassword">
+                    <input
+                        type="password"
+                        name="new_password"
+                        id="new_password"
+                        v-model="newPassword" />
                 </div>
                 <div class="field">
                     <label for="confirm_new_password">Confirme a nova senha</label>
-                    <input type="password" name="confirm_new_password" id="confirm_new_password" v-model="confirmPassword">
+                    <input
+                        type="password"
+                        name="confirm_new_password"
+                        id="confirm_new_password"
+                        v-model="confirmPassword" />
                 </div>
             </form>
         </template>
@@ -24,11 +32,11 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import Modal from '../../../components/Modal.vue';
 
 import { toast } from 'vue3-toastify';
 import { defineEmits, ref } from 'vue';
-import { api } from '../../../services';
+import Modal from '../../../components/Modal.vue';
+import api from '../../../services/index';
 
 const emit = defineEmits(['close']);
 
@@ -39,49 +47,48 @@ const newPassword = ref('');
 const confirmPassword = ref('');
 
 async function changePassword() {
-    const id = route.params.id;
-    const token = window.localStorage.getItem("token") ? JSON.parse(window.localStorage.getItem("token")) : null;
+  const { id } = route.params;
+  const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
 
-    if (newPassword.value !== confirmPassword.value) {
-        toast.error("Senhas não coincidem!", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
+  if (newPassword.value !== confirmPassword.value) {
+    toast.error('Senhas não coincidem!', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
 
-        return
+    return;
+  }
+
+  if (newPassword.value === '' || confirmPassword.value === '') {
+    toast.error('Campos obrigatórios vazios', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+
+    return;
+  }
+
+  await api.put(`/user/${id}`, {
+    senha: newPassword.value,
+  }, {
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(async () => {
+    toast.success('Senha alterada com sucesso!', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+  }).catch((error) => {
+    if (error.response.status === 401) {
+      window.localStorage.clear();
+      router.push('/login');
     }
-
-    if (newPassword.value === '' || confirmPassword.value === '') {
-        toast.error("Campos obrigatórios vazios", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        });
-
-        return
-    }
-
-    await api.put(`/user/${id}`, {
-        senha: newPassword.value
-    }, {
-        headers: {
-            "x-access-token": token
-        }
-    }).then(async ({ data }) => {
-        toast.success("Senha alterada com sucesso!", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
-    }).catch((error) => {
-        if (error.response.status === 401) {
-            window.localStorage.clear();
-            router.push("/login");
-        }
-    })
-
+  });
 }
 
 function closeModal() {
-    emit('close');
+  emit('close');
 }
 </script>
 

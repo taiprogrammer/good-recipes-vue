@@ -8,10 +8,12 @@
         <template v-else>
             <div class="container" v-if="myFavorites.length > 0">
                 <div v-for="(recipe, key) in myFavorites" :key="key">
-                    <RecipeCard 
-                        :id="recipe.receita_id" 
+                    <RecipeCard
+                        :id="recipe.receita_id"
                         :imagem-url="recipe.imagem"
-                        :tempo="`${recipe.horas}:${recipe.minutos == 0 ? '00' : recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}`"
+                        :tempo="`${recipe.horas}:${recipe.minutos == 0
+                             ? '00' : recipe.minutos}:${recipe.segundos == 0 ?
+                              '00' : recipe.segundos}`"
                         :porcoes="recipe.porcoes"
                         :favorite-id="recipe.favorito_id"
                         :quantidade="recipe.quantidade" />
@@ -22,9 +24,9 @@
 </template>
 
 <script setup>
-import { api } from '../../services';
 import { onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import api from '../../services/index';
 
 import Header from '../../components/Header.vue';
 import Loader from '../../components/Loader.vue';
@@ -38,32 +40,32 @@ const isLoading = ref(true);
 const myFavorites = ref(null);
 
 async function getMyFavorites() {
-    const id = route.params.id;
-    const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+  const { id } = route.params;
+  const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
 
-    await api.get(`/favorite/${id}`, {
-        headers: {
-            "x-access-token": token
-        }
-    }).then(async ({ data }) => {
-        if (data.length > 0) {
-            myFavorites.value = data;
+  await api.get(`/favorite/${id}`, {
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(async ({ data }) => {
+    if (data.length > 0) {
+      myFavorites.value = data;
 
-            setTimeout(() => {
-                isLoading.value = false;
-            }, 1500)
-        }
-    }).catch((error) => {
-        if (error.response.status === 401) {
-            window.localStorage.clear();
-            router.push("/login");
-        }
-    })
+      setTimeout(() => {
+        isLoading.value = false;
+      }, 1500);
+    }
+  }).catch((error) => {
+    if (error.response.status === 401) {
+      window.localStorage.clear();
+      router.push('/login');
+    }
+  });
 }
 
 onBeforeMount(async () => {
-    await getMyFavorites();
-})
+  await getMyFavorites();
+});
 </script>
 
 <style lang="css" scoped>

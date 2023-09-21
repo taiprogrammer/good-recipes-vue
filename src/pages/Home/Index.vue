@@ -9,17 +9,18 @@
             <Loader />
         </div>
         <div class="container-recipes" v-else-if="mostRecentsRecipes !== null">
-            <div v-for="(recipe, key) in mostRecentsRecipes">
-                <RecipeCard 
-                    :imagem-url="recipe.receita.imagem" 
+            <div v-for="(recipe, key) in mostRecentsRecipes" :key="key">
+                <RecipeCard
+                    :imagem-url="recipe.receita.imagem"
                     :nome="recipe.receita.nome"
-                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? 
-                        '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.receita.segundos}`"
-                    :porcoes="recipe.receita.porcoes" 
+                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ?
+                        '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ?
+                         '00' : recipe.receita.segundos}`"
+                    :porcoes="recipe.receita.porcoes"
                     :id="recipe.receita.receita_id"
-                    :quantidade="recipe.favorito.quantidade" 
-                    :favorite-id="recipe.favoritoId" 
-                    :key="`${key}`" />
+                    :quantidade="recipe.favorito.quantidade"
+                    :favorite-id="recipe.favoritoId"
+                    />
             </div>
         </div>
         <div class="divider"></div>
@@ -28,17 +29,19 @@
             <Loader />
         </div>
         <div class="container-recipes" v-else-if="mostFavoritesRecipes !== null">
-            <div v-for="(recipe, key) in mostFavoritesRecipes">
-                <RecipeCard 
-                    :imagem-url="recipe.receita.imagem" 
+            <div v-for="(recipe, key) in mostFavoritesRecipes" :key="key">
+                <RecipeCard
+                    :imagem-url="recipe.receita.imagem"
                     :nome="recipe.receita.nome"
-                    :tempo="`${recipe.receita.horas}:${recipe.receita.minutos == 0 ? 
-                        '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ? '00' : recipe.receita.segundos}`"
-                    :porcoes="recipe.receita.porcoes" 
+                    :tempo="`
+                    ${recipe.receita.horas}:${recipe.receita.minutos == 0 ?
+                    '00' : recipe.receita.minutos}:${recipe.receita.segundos == 0 ?
+                    '00' : recipe.receita.segundos}`"
+                    :porcoes="recipe.receita.porcoes"
                     :id="recipe.receita.receita_id"
-                    :quantidade="recipe.favorito.quantidade" 
-                    :favorite-id="recipe.favoritoId" 
-                    :key="`${key}`" />
+                    :quantidade="recipe.favorito.quantidade"
+                    :favorite-id="recipe.favoritoId"
+                    />
             </div>
         </div>
     </main>
@@ -46,6 +49,8 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import Topic from '../../components/Topic.vue';
 import Footer from '../../components/Footer.vue';
 import Header from '../../components/Header.vue';
@@ -53,9 +58,7 @@ import Loader from '../../components/Loader.vue';
 import Carousel from '../../components/Carousel.vue';
 import RecipeCard from '../../components/RecipeCard.vue';
 
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { api } from '../../services/index';
+import api from '../../services/index';
 
 const router = useRouter();
 
@@ -65,43 +68,43 @@ const mostRecentsRecipes = ref(null);
 const mostFavoritesRecipes = ref(null);
 
 async function getMostRecentsRecipes() {
-    api.post('/favorite/recents').then(async ({ data }) => {
-        if (data.length > 0) {
-            mostRecentsRecipes.value = data;
+  api.post('/favorite/recents').then(async ({ data }) => {
+    if (data.length > 0) {
+      mostRecentsRecipes.value = data;
 
-            setTimeout(() => {
-                isLoadingRecents.value = false;
-            }, 2500)
-        }
-    }).catch((error) => {
-        if (error.response.status === 401) {
-            window.localStorage.clear();
-            router.push("/login");
-        }
-    })
+      setTimeout(() => {
+        isLoadingRecents.value = false;
+      }, 2500);
+    }
+  }).catch((error) => {
+    if (error.response.status === 401) {
+      window.localStorage.clear();
+      router.push('/login');
+    }
+  });
 }
 
 async function getMostFavoritesRecipes() {
-    await api.post('/favorite/most-favorites').then(async ({ data }) => {
-        if (data.length > 0) {
-            mostFavoritesRecipes.value = data;
+  await api.post('/favorite/most-favorites').then(async ({ data }) => {
+    if (data.length > 0) {
+      mostFavoritesRecipes.value = data;
 
-            setTimeout(() => {
-                isLoadingFavorites.value = false;
-            }, 2500)
-        }
-    }).catch((error) => {
-        if (error.response.status === 401) {
-            window.localStorage.clear();
-            router.push("/login");
-        }
-    })
+      setTimeout(() => {
+        isLoadingFavorites.value = false;
+      }, 2500);
+    }
+  }).catch((error) => {
+    if (error.response.status === 401) {
+      window.localStorage.clear();
+      router.push('/login');
+    }
+  });
 }
 
 onMounted(async () => {
-    await getMostRecentsRecipes();
-    await getMostFavoritesRecipes();
-})
+  await getMostRecentsRecipes();
+  await getMostFavoritesRecipes();
+});
 </script>
 
 <style lang="css" scoped>

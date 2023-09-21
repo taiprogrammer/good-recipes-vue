@@ -86,55 +86,57 @@
 </template>
 
 <script>
-import { useKeenSlider } from 'keen-slider/vue.es'
-import 'keen-slider/keen-slider.min.css'
+import { useKeenSlider } from 'keen-slider/vue.es';
+import 'keen-slider/keen-slider.min.css';
 
 function ThumbnailPlugin(main) {
-    return (slider) => {
-        function removeActive() {
-            slider.slides.forEach((slide) => {
-                slide.classList.remove('active')
-            })
-        }
-        function addActive(idx) {
-            slider.slides[idx].classList.add('active')
-        }
-
-        function addClickEvents() {
-            slider.slides.forEach((slide, idx) => {
-                slide.addEventListener('click', () => {
-                    main.value.moveToIdx(idx)
-                })
-            })
-        }
-
-        slider.on('created', () => {
-            addActive(slider.track.details.rel)
-            addClickEvents()
-            main.value.on('animationStarted', () => {
-                removeActive()
-                const next = main.value.animator.targetIdx || 0
-                addActive(main.value.track.absToRel(next))
-                slider.moveToIdx(Math.min(slider.track.details.maxIdx, next))
-            })
-        })
+  return (slider) => {
+    function removeActive() {
+      slider.slides.forEach((slide) => {
+        slide.classList.remove('active');
+      });
     }
+    function addActive(idx) {
+      slider.slides[idx].classList.add('active');
+    }
+
+    function addClickEvents() {
+      slider.slides.forEach((slide, idx) => {
+        slide.addEventListener('click', () => {
+          main.value.moveToIdx(idx);
+        });
+      });
+    }
+
+    slider.on('created', () => {
+      addActive(slider.track.details.rel);
+      addClickEvents();
+      main.value.on('animationStarted', () => {
+        removeActive();
+        const next = main.value.animator.targetIdx || 0;
+        addActive(main.value.track.absToRel(next));
+        slider.moveToIdx(Math.min(slider.track.details.maxIdx, next));
+      });
+    });
+  };
 }
 
 export default {
-    setup() {
-        const [container, slider] = useKeenSlider()
-        const [thumbnail] = useKeenSlider({
-            initial: 0,
-            slides: {
-                perView: 4,
-                spacing: 10
-            },
+  setup() {
+    const [container, slider] = useKeenSlider();
+    const [thumbnail] = useKeenSlider(
+      {
+        initial: 0,
+        slides: {
+          perView: 4,
+          spacing: 10,
         },
-            [ThumbnailPlugin(slider)])
-        return { container, thumbnail }
-    }
-}
+      },
+      [ThumbnailPlugin(slider)],
+    );
+    return { container, thumbnail };
+  },
+};
 </script>
 
 <style lang="css" scoped>

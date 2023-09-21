@@ -25,22 +25,22 @@ import { defineEmits, defineProps } from 'vue';
 import { PhHouse, PhPencil, PhTrash } from '@phosphor-icons/vue';
 
 defineProps({
-    rua: String,
-    numero: Number,
-    cep: String,
-    cidade: String,
-    pais: String,
-    id: String,
-})
+  rua: String,
+  numero: Number,
+  cep: String,
+  cidade: String,
+  pais: String,
+  id: String,
+});
 
 const emit = defineEmits(['edit', 'delete']);
 
 function edit() {
-    emit('edit');
+  emit('edit');
 }
 
 function deleteAddress(id) {
-    emit('delete', id)
+  emit('delete', id);
 }
 </script>
 

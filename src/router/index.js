@@ -1,53 +1,53 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router';
 
-import Home from "../pages/Home/Index.vue";
-import Login from "../pages/Login/Index.vue";
-import Signup from "../pages/Signup/Index.vue";
-import Recipe from "../pages/Recipe/Index.vue";
-import Profile from "../pages/Profile/Index.vue";
-import NewRecipe from "../pages/NewRecipe/Index.vue";
-import MyRecipes from "../pages/MyRecipes/Index.vue";
-import MyFavorites from "../pages/MyFavorites/Index.vue";
+import Home from '../pages/Home/Index.vue';
+import Login from '../pages/Login/Index.vue';
+import Signup from '../pages/Signup/Index.vue';
+import Recipe from '../pages/Recipe/Index.vue';
+import Profile from '../pages/Profile/Index.vue';
+import NewRecipe from '../pages/NewRecipe/Index.vue';
+import MyRecipes from '../pages/MyRecipes/Index.vue';
+import MyFavorites from '../pages/MyFavorites/Index.vue';
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: Home,
   },
   {
-    path: "/login",
-    name: "Login",
+    path: '/login',
+    name: 'Login',
     component: Login,
   },
   {
-    path: "/signup",
-    name: "Sign Up",
+    path: '/signup',
+    name: 'Sign Up',
     component: Signup,
   },
   {
-    path: "/recipe/:id",
-    name: "Recipe",
+    path: '/recipe/:id',
+    name: 'Recipe',
     component: Recipe,
   },
   {
-    path: "/new-recipe",
-    name: "New Recipe",
+    path: '/new-recipe',
+    name: 'New Recipe',
     component: NewRecipe,
   },
   {
-    path: "/my-recipes/:id",
-    name: "My Recipes",
+    path: '/my-recipes/:id',
+    name: 'My Recipes',
     component: MyRecipes,
   },
   {
-    path: "/my-profile/:id",
-    name: "My Profile",
+    path: '/my-profile/:id',
+    name: 'My Profile',
     component: Profile,
   },
   {
-    path: "/my-favorites/:id",
-    name: "My Favorites",
+    path: '/my-favorites/:id',
+    name: 'My Favorites',
     component: MyFavorites,
   },
 ];

@@ -27,7 +27,7 @@ import { PhXCircle } from '@phosphor-icons/vue';
 const emit = defineEmits(['close']);
 
 function closeModal() {
-    emit('close');
+  emit('close');
 }
 </script>
 

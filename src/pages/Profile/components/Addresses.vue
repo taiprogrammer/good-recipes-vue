@@ -4,9 +4,15 @@
     </div>
     <div class="container">
         <template v-if="addresses !== null">
-            <div class="address" v-for="(address, key) in addresses">
-                <AddressCard :key="key" :rua="address.logradouro" :numero="address.numero" :cep="address.cep"
-                    :cidade="address.cidade" :pais="address.pais" :id="address.endereco_id" @edit="goToEdit(address)"
+            <div class="address" v-for="(address, key) in addresses" :key="key">
+                <AddressCard
+                    :rua="address.logradouro"
+                    :numero="address.numero"
+                    :cep="address.cep"
+                    :cidade="address.cidade"
+                    :pais="address.pais"
+                    :id="address.endereco_id"
+                    @edit="goToEdit(address)"
                     @delete="deleteAddress" />
             </div>
         </template>
@@ -23,13 +29,13 @@
 </template>
 
 <script setup>
-import AddressCard from './AddressCard.vue';
-import Loader from '../../../components/Loader.vue';
-
-import { api } from '../../../services';
 import { useRoute, useRouter } from 'vue-router';
 import { PhArrowRight } from '@phosphor-icons/vue';
 import { defineEmits, onBeforeMount, ref } from 'vue';
+import AddressCard from './AddressCard.vue';
+import Loader from '../../../components/Loader.vue';
+
+import api from '../../../services/index';
 
 const emit = defineEmits(['newAddress', 'edit', 'delete']);
 
@@ -41,46 +47,46 @@ const noAddresses = ref(false);
 const showLoader = ref(true);
 
 function goToNewAddress() {
-    emit('newAddress');
+  emit('newAddress');
 }
 
 function goToEdit(address) {
-    emit('edit', address);
+  emit('edit', address);
 }
 
 function deleteAddress(id) {
-    emit('delete', id);
+  emit('delete', id);
 }
 
 async function getAddresses() {
-    const id = route.params.id;
-    const token = JSON.parse(window.localStorage.getItem("token"));
-    await api.get(`/address/${id}`, {
-        headers: {
-            'x-access-token': token
-        }
-    })
-        .then(async ({ data }) => {
-            if (data.length > 0) {
-                addresses.value = data;
-                showLoader.value = false;
-                noAddresses.value = false;
-            }
-            if (data.length === 0) {
-                showLoader.value = false;
-                noAddresses.value = true;
-            }
-        }).catch((error) => {
-            if (error.response.status === 401) {
-                window.localStorage.clear();
-                router.push("/login");
-            }
-        })
+  const { id } = route.params;
+  const token = JSON.parse(window.localStorage.getItem('token'));
+  await api.get(`/address/${id}`, {
+    headers: {
+      'x-access-token': token,
+    },
+  })
+    .then(async ({ data }) => {
+      if (data.length > 0) {
+        addresses.value = data;
+        showLoader.value = false;
+        noAddresses.value = false;
+      }
+      if (data.length === 0) {
+        showLoader.value = false;
+        noAddresses.value = true;
+      }
+    }).catch((error) => {
+      if (error.response.status === 401) {
+        window.localStorage.clear();
+        router.push('/login');
+      }
+    });
 }
 
 onBeforeMount(() => {
-    getAddresses();
-})
+  getAddresses();
+});
 </script>
 
 <style lang="css" scoped>

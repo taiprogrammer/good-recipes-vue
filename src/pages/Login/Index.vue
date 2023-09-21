@@ -16,7 +16,8 @@
                         </div>
                         <button @click="login">Entrar</button>
                         <div class="divider"></div>
-                        <p>Não possui uma conta? <RouterLink to="/signup">Cadastre - se aqui</RouterLink>
+                        <p>Não possui uma conta?
+                        <RouterLink to="/signup">Cadastre - se aqui</RouterLink>
                         </p>
                     </form>
                 </div>
@@ -30,13 +31,13 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { toast } from 'vue3-toastify';
+import { RouterLink, useRouter } from 'vue-router';
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 
-import { ref } from 'vue';
-import { api } from '../../services';
-import { toast } from 'vue3-toastify';
-import { RouterLink, useRouter } from 'vue-router';
+import api from '../../services/index';
 
 const email = ref('');
 const password = ref('');
@@ -44,40 +45,39 @@ const password = ref('');
 const router = useRouter();
 
 async function login(event) {
-    event.preventDefault();
-    const payload = {
-        email: email.value,
-        senha: password.value
-    }
+  event.preventDefault();
+  const payload = {
+    email: email.value,
+    senha: password.value,
+  };
 
-    if (email.value === '' || password.value === '') {
-        toast.error('Campos obrigatórios faltantes', {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
-        return
-    }
+  if (email.value === '' || password.value === '') {
+    toast.error('Campos obrigatórios faltantes', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+    return;
+  }
 
-    api.post("/user/login", payload).then(async ({ data }) => {
-        toast.success("Login feito com sucesso. Estamos te redirecionando...", {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: 'colored'
-        })
-        localStorage.setItem("token", JSON.stringify(data.token));
-        localStorage.setItem("userId", JSON.stringify(data.id));
-        window.localStorage.setItem("username", JSON.stringify(data.nome));
-        setTimeout(() => {
-            router.push("/")
-        }, 5000)
-    }).catch((error) => {
-        if (error.response.data.status === 401) {
-            toast.error(error.response.data.message, {
-                position: toast.POSITION.TOP_RIGHT,
-                theme: "colored"
-            })
-            return
-        }
-    })
+  api.post('/user/login', payload).then(async ({ data }) => {
+    toast.success('Login feito com sucesso. Estamos te redirecionando...', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+    localStorage.setItem('token', JSON.stringify(data.token));
+    localStorage.setItem('userId', JSON.stringify(data.id));
+    window.localStorage.setItem('username', JSON.stringify(data.nome));
+    setTimeout(() => {
+      router.push('/');
+    }, 5000);
+  }).catch((error) => {
+    if (error.response.data.status === 401) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: 'colored',
+      });
+    }
+  });
 }
 </script>
 

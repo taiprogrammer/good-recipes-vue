@@ -53,20 +53,22 @@
 </template>
 
 <script setup>
-import { api } from '../services';
 import { useRouter } from 'vue-router';
 import { onBeforeMount, ref } from 'vue';
-import { PhHeart, PhTimer, PhForkKnife, PhEye } from '@phosphor-icons/vue'
+import {
+  PhHeart, PhTimer, PhForkKnife, PhEye,
+} from '@phosphor-icons/vue';
+import api from '../services/index';
 
 const props = defineProps({
-    nome: String,
-    imagemUrl: String,
-    tempo: String,
-    porcoes: Number,
-    id: Number,
-    quantidade: Number,
-    favoriteId: Number,
-})
+  nome: String,
+  imagemUrl: String,
+  tempo: String,
+  porcoes: Number,
+  id: Number,
+  quantidade: Number,
+  favoriteId: Number,
+});
 
 const router = useRouter();
 
@@ -76,89 +78,89 @@ const userId = window.localStorage.getItem('userId') ? JSON.parse(window.localSt
 const userFavorites = ref(null);
 const isFavorite = ref(false);
 const favoritoUsuarioId = ref(null);
-const quantity = ref(null)
+const quantity = ref(null);
 
 async function verifyFavorites() {
-    if (userFavorites.value !== null) {
-        userFavorites.value.map((favorite) => {
-            if (favorite.receita_id === props.id) {
-                isFavorite.value = true;
-                favoritoUsuarioId.value = favorite.favorito_usuario_id;
-                quantity.value = favorite.quantidade;
-            }
-        })
-    }
+  if (userFavorites.value !== null) {
+    userFavorites.value.map((favorite) => {
+      if (favorite.receita_id === props.id) {
+        isFavorite.value = true;
+        favoritoUsuarioId.value = favorite.favorito_usuario_id;
+        quantity.value = favorite.quantidade;
+      }
+    });
+  }
 }
 
 async function getUserLoggedFavorites() {
-    const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
-    const userId = window.localStorage.getItem('userId') ? JSON.parse(window.localStorage.getItem('userId')) : null;
+  const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+  const userId = window.localStorage.getItem('userId') ? JSON.parse(window.localStorage.getItem('userId')) : null;
 
-    if (userId !== null) {
-        await api.get(`/favorite/${userId}`, {
-            headers: {
-                "x-access-token": token
-            }
-        }).then(async ({ data }) => {
-            userFavorites.value = await data;
-        }).catch((error) => {
-            if (error.response.status === 401) {
-                window.localStorage.clear();
-                router.push("/login");
-            }
-        })
-    }
+  if (userId !== null) {
+    await api.get(`/favorite/${userId}`, {
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(async ({ data }) => {
+      userFavorites.value = await data;
+    }).catch((error) => {
+      if (error.response.status === 401) {
+        window.localStorage.clear();
+        router.push('/login');
+      }
+    });
+  }
 }
 
 async function createFavorite() {
-    const paylod = {
-        favoritoId: props.favoriteId,
-        usuarioId: userId,
-        quantidade: quantity.value + 1
-    }
+  const paylod = {
+    favoritoId: props.favoriteId,
+    usuarioId: userId,
+    quantidade: quantity.value + 1,
+  };
 
-    if (isFavorite.value === false) {
-        await api.post(`/favorite`, paylod, {
-            headers: {
-                "x-access-token": token
-            }
-        }).then(async ({ data }) => {
-            isFavorite.value = true
-        }).catch((error) => {
-            if (error.response.status === 401) {
-                window.localStorage.clear();
-                router.push("/login");
-            }
-        })
-    }
+  if (isFavorite.value === false) {
+    await api.post('/favorite', paylod, {
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(async ({ data }) => {
+      isFavorite.value = true;
+    }).catch((error) => {
+      if (error.response.status === 401) {
+        window.localStorage.clear();
+        router.push('/login');
+      }
+    });
+  }
 }
 
 async function removeFavorite() {
-    const payload = {
-        favoritoUsuarioId: favoritoUsuarioId.value,
-        quantidade: quantity.value - 1
-    }
+  const payload = {
+    favoritoUsuarioId: favoritoUsuarioId.value,
+    quantidade: quantity.value - 1,
+  };
 
-    if (isFavorite.value === true) {
-        await api.put(`/favorite/${props.favoriteId}`, payload, {
-            headers: {
-                "x-access-token": token
-            }
-        }).then(async ({ data }) => {
-            isFavorite.value = false;
-        }).catch((error) => {
-            if (error.response.status === 401) {
-                window.localStorage.clear();
-                router.push("/login");
-            }
-        })
-    }
+  if (isFavorite.value === true) {
+    await api.put(`/favorite/${props.favoriteId}`, payload, {
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(async ({ data }) => {
+      isFavorite.value = false;
+    }).catch((error) => {
+      if (error.response.status === 401) {
+        window.localStorage.clear();
+        router.push('/login');
+      }
+    });
+  }
 }
 
 onBeforeMount(async () => {
-    await getUserLoggedFavorites();
-    await verifyFavorites();
-})
+  await getUserLoggedFavorites();
+  await verifyFavorites();
+});
 </script>
 
 <style lang="css" scoped>

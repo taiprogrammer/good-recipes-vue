@@ -36,10 +36,12 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
-import { PhUserPlus, PhSignIn, PhNotepad, PhHeart, PhUserGear } from '@phosphor-icons/vue'
+import { RouterLink } from 'vue-router';
+import {
+  PhUserPlus, PhSignIn, PhNotepad, PhHeart, PhUserGear,
+} from '@phosphor-icons/vue';
 
-const logged = window.localStorage.token ? true : false;
+const logged = !!window.localStorage.token;
 const userId = window.localStorage.userId ? JSON.parse(window.localStorage.userId) : null;
 </script>
 

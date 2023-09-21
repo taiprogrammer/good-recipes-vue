@@ -1,6 +1,7 @@
 <template>
     <Transition>
-        <DeleteAddress v-if="deleteAddressIsShown" @close="closeDeleteAddress" @exclude="deleteAddress" />
+        <DeleteAddress
+        v-if="deleteAddressIsShown" @close="closeDeleteAddress" @exclude="deleteAddress" />
     </Transition>
     <Transition>
         <ModalProfileEdit v-if="editIsShown" @close="closeEditModal" :user-data="userData" />
@@ -9,7 +10,10 @@
         <ModalPasswordChange v-if="passwordChangeIsShown" @close="closePasswordChangeModal" />
     </Transition>
     <Transition>
-        <MyAddressesModal v-if="myAddressesModalIsShown" @close="closeMyAddressesModal" @delete="getAddressIdToDelete" />
+        <MyAddressesModal
+            v-if="myAddressesModalIsShown"
+            @close="closeMyAddressesModal"
+            @delete="getAddressIdToDelete" />
     </Transition>
     <Header />
     <main>
@@ -23,16 +27,30 @@
             <div class="user-data">
                 <div class="field">
                     <label for="nome">Nome:</label>
-                    <input type="text" name="nome" id="nome" :value="userData !== null ? userData.nome : ''" disabled>
+                    <input
+                    type="text"
+                    name="nome"
+                    id="nome"
+                    :value="userData !== null ? userData.nome : ''"
+                    disabled />
                 </div>
                 <div class="field">
                     <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" :value="userData !== null ? userData.email : ''" disabled>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        :value="userData !== null ? userData.email : ''"
+                        disabled />
                 </div>
                 <div class="field">
                     <label for="data_nascimento">Data de Nascimento:</label>
-                    <input type="date" name="data_nascimento" id="data_nascimento"
-                        :value="userData !== null ? userData.dataNascimento : ''" disabled>
+                    <input
+                        type="date"
+                        name="data_nascimento"
+                        id="data_nascimento"
+                        :value="userData !== null ? userData.dataNascimento : ''"
+                        disabled />
                 </div>
             </div>
             <div class="options">
@@ -51,6 +69,10 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import { onBeforeMount, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 import Sidebar from '../../components/Sidebar.vue';
@@ -59,11 +81,7 @@ import ModalProfileEdit from './components/ModalProfileEdit.vue';
 import MyAddressesModal from './components/MyAddressesModal.vue';
 import ModalPasswordChange from './components/ModalPasswordChange.vue';
 
-import { api } from '../../services';
-import { toast } from 'vue3-toastify';
-import { onBeforeMount, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { PhClipboardText, PhPencil } from '@phosphor-icons/vue';
+import api from '../../services/index';
 
 const route = useRoute();
 const router = useRouter();
@@ -78,79 +96,79 @@ const addressId = ref('');
 const userData = ref(null);
 
 async function getProfile() {
-    const id = route.params.id;
-    const token = window.localStorage.getItem("token") ? JSON.parse(window.localStorage.getItem("token")) : null;
-    await api.get(`/user/${id}`, {
-        headers: {
-            "x-access-token": token
-        }
-    }).then(async ({ data }) => {
-        userData.value = data;
-    }).catch((error) => {
-        if (error.response.status === 401) {
-            window.localStorage.clear();
-            router.push("/login");
-        }
-    })
+  const { id } = route.params;
+  const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+  await api.get(`/user/${id}`, {
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(async ({ data }) => {
+    userData.value = data;
+  }).catch((error) => {
+    if (error.response.status === 401) {
+      window.localStorage.clear();
+      router.push('/login');
+    }
+  });
 }
 
 async function deleteAddress() {
-    const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
-    await api.delete(`/address/${addressId.value}`, {
-        headers: {
-            'x-access-token': token
-        }
-    }).then(async ({ data }) => {
-        toast.success('Endereço deletado com sucesso!', {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored"
-        })
-    }).catch((error) => {
-        if (error.response.status === 401) {
-            window.localStorage.clear();
-            router.push("/login");
-        }
-    })
+  const token = window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token')) : null;
+  await api.delete(`/address/${addressId.value}`, {
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(async () => {
+    toast.success('Endereço deletado com sucesso!', {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: 'colored',
+    });
+  }).catch((error) => {
+    if (error.response.status === 401) {
+      window.localStorage.clear();
+      router.push('/login');
+    }
+  });
 }
 
 function getAddressIdToDelete(id) {
-    deleteAddressIsShown.value = true;
-    myAddressesModalIsShown.value = false;
-    addressId.value = id;
+  deleteAddressIsShown.value = true;
+  myAddressesModalIsShown.value = false;
+  addressId.value = id;
 }
 
 function closeDeleteAddress() {
-    deleteAddressIsShown.value = false;
-    myAddressesModalIsShown.value = true;
+  deleteAddressIsShown.value = false;
+  myAddressesModalIsShown.value = true;
 }
 
 function openEditModal() {
-    editIsShown.value = true;
+  editIsShown.value = true;
 }
 
 function closeEditModal() {
-    editIsShown.value = false;
+  editIsShown.value = false;
 }
 
 function openPasswordChangeModal() {
-    passwordChangeIsShown.value = true;
+  passwordChangeIsShown.value = true;
 }
 
 function closePasswordChangeModal() {
-    passwordChangeIsShown.value = false;
+  passwordChangeIsShown.value = false;
 }
 
 function openMyAddressesModal() {
-    myAddressesModalIsShown.value = true;
+  myAddressesModalIsShown.value = true;
 }
 
 function closeMyAddressesModal() {
-    myAddressesModalIsShown.value = false;
+  myAddressesModalIsShown.value = false;
 }
 
 onBeforeMount(() => {
-    getProfile();
-})
+  getProfile();
+});
 </script>
 
 <style lang="css" scoped>

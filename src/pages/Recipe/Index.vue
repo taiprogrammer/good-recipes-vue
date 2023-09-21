@@ -10,17 +10,22 @@
                 <h1>{{ recipe.nome }}</h1>
                 <div class="box-recipe">
                     <div class="container-cover">
-                        <img v-if="recipe.imagem === null" src="../../assets/no-image/cover.png" alt="Receita sem imagem">
+                        <img
+                            v-if="recipe.imagem === null"
+                            src="../../assets/no-image/cover.png"
+                            alt="Receita sem imagem" />
                         <img v-else :src="`http://localhost:8080/${recipe.imagem}`" :alt="recipe.nome">
                         <div>
                             <p>
                                 <PhTimer />
-                                {{ `${recipe.horas}:${recipe.minutos == 0 ? '00' :
-                                    recipe.minutos}:${recipe.segundos == 0 ? '00' : recipe.segundos}` }}
+                                {{ `${recipe.horas}:${recipe.minutos == 0 ?
+                                '00' : recipe.minutos}:${recipe.segundos == 0 ?
+                                '00' : recipe.segundos}` }}
                             </p>
                             <p>
                                 <PhForkKnife />
-                                {{ recipe.porcoes == 1 ? `${recipe.porcoes} porção` : `${recipe.porcoes} porções` }}
+                                {{ recipe.porcoes == 1 ?
+                                `${recipe.porcoes} porção` : `${recipe.porcoes} porções` }}
                             </p>
                         </div>
                     </div>
@@ -42,15 +47,15 @@
 </template>
 
 <script setup>
+import { onBeforeMount, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { PhForkKnife, PhTimer } from '@phosphor-icons/vue';
 import Topic from '../../components/Topic.vue';
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 
-import { api } from '../../services';
-import { onBeforeMount, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import api from '../../services/index';
 import Loader from '../../components/Loader.vue';
-import { PhForkKnife, PhTimer } from '@phosphor-icons/vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -58,25 +63,25 @@ const router = useRouter();
 const recipe = ref(null);
 
 async function getRecipe() {
-    await api.get(`/recipe/${route.params.id}`)
-        .then(async ({ data }) => {
-            if (data) {
-                setTimeout(() => {
-                    recipe.value = data;
-                }, 1000)
-            }
-        })
-        .catch((error) => {
-            if (error.response.status === 401) {
-                window.localStorage.clear();
-                router.push("/login");
-            }
-        })
+  await api.get(`/recipe/${route.params.id}`)
+    .then(async ({ data }) => {
+      if (data) {
+        setTimeout(() => {
+          recipe.value = data;
+        }, 1000);
+      }
+    })
+    .catch((error) => {
+      if (error.response.status === 401) {
+        window.localStorage.clear();
+        router.push('/login');
+      }
+    });
 }
 
 onBeforeMount(() => {
-    getRecipe();
-})
+  getRecipe();
+});
 </script>
 
 <style lang="css" scoped>
