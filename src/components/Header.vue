@@ -7,7 +7,7 @@
           alt="Good Recipes Logo"
         >
       </RouterLink>
-      <nav v-if="!logged">
+      <nav id="notLogged" v-if="!logged">
         <RouterLink to="/signup">
           <PhUserPlus />
           <span>Cadastre - se</span>
@@ -17,7 +17,7 @@
           <span>Entrar</span>
         </RouterLink>
       </nav>
-      <nav v-else>
+      <nav id="logged" v-else>
         <RouterLink :to="`/my-recipes/${userId}`">
           <PhNotepad />
           <span>Minhas receitas</span>
