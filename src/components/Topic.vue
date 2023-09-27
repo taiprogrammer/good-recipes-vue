@@ -38,4 +38,17 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+@media (min-width: 300px) and (max-width: 640px) {
+  .container {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0.5rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+}
 </style>

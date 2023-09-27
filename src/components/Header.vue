@@ -88,4 +88,15 @@ i,
 span {
     font-size: 1.1rem;
 }
+/*2sm*/
+@media (min-width: 300px) and (max-width: 640px) {
+  .container {
+    gap: 1rem;
+    flex-direction: column;
+  }
+
+  img {
+    height: 4rem;
+  }
+}
 </style>

@@ -287,4 +287,16 @@ a {
 .v-leave-to {
     opacity: 0;
 }
+
+@media (min-width: 300px) and (max-width: 640px) {
+  main {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+}
 </style>

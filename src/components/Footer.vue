@@ -148,4 +148,17 @@ img {
     height: 80px;
     margin-top: 0.5rem;
 }
+
+@media (min-width: 300px) and (max-width: 640px) {
+  .content {
+    flex-direction: column;
+  }
+}
+
+/*sm*/
+@media (min-width: 640px) and (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+}
 </style>

@@ -185,4 +185,28 @@ button {
     color: var(--white);
     background: var(--green400);
 }
+
+@media (min-width: 300px) and (max-width: 640px) {
+  form {
+    width: 80%;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+  form {
+    width: 85%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  form {
+    width: 87%;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+  form {
+    width: 90%;
+  }
+}
 </style>

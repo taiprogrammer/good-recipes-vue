@@ -166,4 +166,22 @@ p {
 .v-leave-to {
     opacity: 0;
 }
+
+@media (min-width: 300px) and (max-width: 640px) {
+    .box-recipe {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+    .box-recipe {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .box-recipe {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
 </style>

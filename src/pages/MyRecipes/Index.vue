@@ -103,4 +103,38 @@ main {
 
     color: var(--textMedium);
 }
+
+@media (min-width: 300px) and (max-width: 640px) {
+  main {
+    flex-direction: column;
+  }
+
+  .container {
+    grid-template-columns: repeat(1, 1fr);
+    width: 85%;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+
+  .container {
+    grid-template-columns: repeat(1, 1fr);
+    width: 85%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 </style>

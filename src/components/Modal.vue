@@ -108,4 +108,28 @@ button {
     justify-content: center;
     padding: 0.3rem;
 }
+
+@media (min-width: 300px) and (max-width: 640px) {
+  .modal {
+    width: 90vw;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+  .modal {
+    width: 90vw;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .modal {
+    width: 90vw;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .modal {
+    width: 90vw;
+  }
+}
 </style>

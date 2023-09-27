@@ -105,4 +105,40 @@ a {
 a:hover {
     color: var(--green450);
 }
+
+@media (min-width: 300px) and (max-width: 640px) {
+  nav {
+    width: 85%;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+  nav {
+    width: 85%;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  nav {
+    width: 20rem;
+  }
+}
 </style>

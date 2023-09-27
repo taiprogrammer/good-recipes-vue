@@ -175,6 +175,9 @@ onBeforeMount(async () => {
     overflow: hidden;
     position: relative;
 
+    height: 30rem;
+    width: 18.438rem;
+
     transform: scale(0.95);
     transition: box-shaddow 0.5s, transform 0.5s;
 }
@@ -199,7 +202,8 @@ onBeforeMount(async () => {
 img {
     height: 300px;
     max-width: 295px;
-    width: 280px;
+    /* width: 280px; */
+    width: 100%;
     object-fit: cover;
 }
 

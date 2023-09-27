@@ -3,7 +3,7 @@
     <main>
         <div class="container">
             <div class="signup">
-                <div>
+                <div class="cover">
                     <img src="../../assets/cover-cadastro.jpg" alt="Imagem cadastro">
                 </div>
                 <div>
@@ -23,7 +23,7 @@
                                 type="email"
                                 name="confirm_email"
                                 id="confirm_email"
-                                v-model="email_confirm" />
+                                v-model="emailConfirm" />
                         </div>
                         <div>
                             <label for="data_nascimento">Data de nascimento</label>
@@ -201,5 +201,34 @@ a:hover {
 
 img {
     width: 450px;
+}
+
+@media (min-width: 300px) and (max-width: 640px) {
+    .cover {
+        display: none;
+    }
+    form {
+        width: 90%;
+    }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+    .cover {
+        display: none;
+    }
+
+    form {
+        width: 90%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .cover {
+        display: none;
+    }
+
+    form {
+        width: 90%;
+    }
 }
 </style>

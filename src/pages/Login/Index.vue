@@ -21,7 +21,7 @@
                         </p>
                     </form>
                 </div>
-                <div>
+                <div class="cover">
                     <img src="../../assets/cover-login.jpg" alt="Login cover">
                 </div>
             </section>
@@ -185,5 +185,35 @@ a:hover {
 
 img {
     width: 450px;
+}
+
+@media (min-width: 300px) and (max-width: 640px) {
+    .cover {
+        display: none;
+    }
+
+    form {
+        width: 90%;
+    }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+    .cover {
+        display: none;
+    }
+
+    form {
+        width: 90%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .cover {
+        display: none;
+    }
+
+    form {
+        width: 90%;
+    }
 }
 </style>
