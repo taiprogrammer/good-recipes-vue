@@ -19,6 +19,9 @@
                         :quantidade="recipe.quantidade" />
                 </div>
             </div>
+            <div class="no-recipe-container" v-else>
+                <h2>Ops! Você não possui nenhum favorito! :(</h2>
+            </div>
         </template>
     </main>
 </template>
