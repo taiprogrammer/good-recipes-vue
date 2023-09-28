@@ -51,13 +51,11 @@ async function getMyFavorites() {
       'x-access-token': token,
     },
   }).then(async ({ data }) => {
-    if (data.length > 0) {
-      myFavorites.value = data;
+    myFavorites.value = await data;
 
-      setTimeout(() => {
-        isLoading.value = false;
-      }, 1500);
-    }
+    setTimeout(() => {
+      isLoading.value = false;
+    }, 1500);
   }).catch((error) => {
     if (error.response.status === 401) {
       window.localStorage.clear();
