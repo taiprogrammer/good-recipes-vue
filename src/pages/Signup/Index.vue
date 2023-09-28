@@ -94,7 +94,7 @@ async function signUp(event) {
       theme: 'colored',
     });
   }).catch((error) => {
-    toast.error(error, {
+    toast.error('Usuário cadastrado no sistema! Tente outro email.', {
       position: toast.POSITION.TOP_RIGHT,
       theme: 'colored',
     });
