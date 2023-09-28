@@ -14,7 +14,7 @@
                             v-if="recipe.imagem === null"
                             src="../../assets/no-image/cover.png"
                             alt="Receita sem imagem" />
-                        <img v-else :src="`http://localhost:8080/${recipe.imagem}`" :alt="recipe.nome">
+                        <img v-else :src="`https://good-recipes-api.onrender.com/${recipe.imagem}`" :alt="recipe.nome">
                         <div>
                             <p>
                                 <PhTimer />
