@@ -9,7 +9,7 @@
         >
         <img
           v-else
-          :src="`http://localhost:8080/${imagemUrl}`"
+          :src="`https://good-recipes-vue.vercel.app/${imagemUrl}`"
           :alt="nome"
         >
       </div>
