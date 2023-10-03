@@ -1,6 +1,6 @@
 <template>
-    <div v-if="showLoader" class="loader">
-        <Loader />
+    <div v-if="showLoader" class="container">
+        <div class="skeleton"></div>
     </div>
     <div class="container">
         <template v-if="addresses !== null">
@@ -16,9 +16,10 @@
                     @delete="deleteAddress" />
             </div>
         </template>
-        <template v-if="noAddresses">
+        <div class="no-address" v-if="noAddresses">
             <h2>Você não possui endereços cadastrados!</h2>
-        </template>
+            <PhSmileySad size="30" />
+        </div>
         <footer>
             <button @click="goToNewAddress">
                 <span>Adicionar endereço</span>
@@ -30,10 +31,9 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import { PhArrowRight } from '@phosphor-icons/vue';
+import { PhArrowRight, PhSmileySad } from '@phosphor-icons/vue';
 import { defineEmits, onBeforeMount, ref } from 'vue';
 import AddressCard from './AddressCard.vue';
-import Loader from '../../../components/Loader.vue';
 
 import api from '../../../services/index';
 
@@ -69,12 +69,16 @@ async function getAddresses() {
     .then(async ({ data }) => {
       if (data.length > 0) {
         addresses.value = data;
-        showLoader.value = false;
-        noAddresses.value = false;
+        setTimeout(() => {
+          showLoader.value = false;
+          noAddresses.value = false;
+        }, 2500);
       }
       if (data.length === 0) {
-        showLoader.value = false;
-        noAddresses.value = true;
+        setTimeout(() => {
+          showLoader.value = false;
+          noAddresses.value = true;
+        }, 2500);
       }
     }).catch((error) => {
       if (error.response.status === 401) {
@@ -94,8 +98,31 @@ onBeforeMount(() => {
     margin-top: 1rem;
 }
 
-.loader {
-    padding-bottom: 3rem;
+@keyframes loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+.skeleton {
+  width: 90%;
+  height: 80px;
+
+  border-radius: 0.5rem;
+
+  animation: loading 1s linear infinite alternate;
+}
+
+.no-address {
+  margin: 2.5rem auto;
+  width: 100%;
+
+  display: flex;
+  gap: 0.5rem;
 }
 
 footer button {

@@ -2,8 +2,10 @@
     <Header />
     <main>
         <Sidebar />
-        <div class="no-recipe-container" v-if="isLoading">
-            <Loader />
+        <div class="container" v-if="isLoading">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
         </div>
         <template v-else>
             <div class="container" v-if="myFavorites.length > 0">
@@ -20,7 +22,7 @@
                 </div>
             </div>
             <div class="no-recipe-container" v-else>
-                <h2>Ops! Você não possui nenhum favorito! :(</h2>
+                <h2>Ops! Você não possui nenhum favorito! <PhSmileySad size="30"/></h2>
             </div>
         </template>
     </main>
@@ -29,12 +31,13 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { PhSmileySad } from '@phosphor-icons/vue';
 import api from '../../services/index';
 
 import Header from '../../components/Header.vue';
-import Loader from '../../components/Loader.vue';
 import Sidebar from '../../components/Sidebar.vue';
 import RecipeCard from '../../components/RecipeCard.vue';
+import SkeletonCard from '../../components/SkeletonCard.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -81,7 +84,7 @@ main {
 .container {
     gap: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
     height: 800px;
     width: 96%;
@@ -93,6 +96,7 @@ main {
 }
 
 .no-recipe-container {
+    gap: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
