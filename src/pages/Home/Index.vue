@@ -24,6 +24,7 @@
                     :id="recipe.receita.receita_id"
                     :quantidade="recipe.favorito.quantidade"
                     :favorite-id="recipe.favoritoId"
+                    @click="goToRecipe(recipe.receita.receita_id)"
                     />
             </div>
         </div>
@@ -49,6 +50,7 @@
                     :id="recipe.receita.receita_id"
                     :quantidade="recipe.favorito.quantidade"
                     :favorite-id="recipe.favoritoId"
+                    @click="goToRecipe(recipe.receita.receita_id)"
                     />
             </div>
         </div>
@@ -107,6 +109,10 @@ async function getMostFavoritesRecipes() {
       router.push('/login');
     }
   });
+}
+
+function goToRecipe(id) {
+  router.push(`/recipe/${id}`);
 }
 
 onMounted(async () => {
