@@ -2,8 +2,10 @@
     <Header />
     <main>
         <Sidebar />
-        <div class="no-recipe-container" v-if="isLoading">
-            <Loader />
+        <div class="container" v-if="isLoading">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
         </div>
         <template v-else>
             <div class="container" v-if="recipes.length > 0">
@@ -33,9 +35,9 @@ import { onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
-import Loader from '../../components/Loader.vue';
 import Sidebar from '../../components/Sidebar.vue';
 import RecipeCard from '../../components/RecipeCard.vue';
+import SkeletonCard from '../../components/SkeletonCard.vue';
 
 import api from '../../services/index';
 
@@ -83,7 +85,7 @@ main {
 .container {
     gap: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
     height: 800px;
     width: 96%;

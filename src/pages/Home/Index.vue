@@ -5,8 +5,12 @@
     <main>
         <div class="divider"></div>
         <h1>Últimos adicionados</h1>
-        <div class="container-loader" v-if="isLoadingRecents">
-            <Loader />
+        <div class="container-recipes" v-if="isLoadingRecents">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
         </div>
         <div class="container-recipes" v-else-if="mostRecentsRecipes !== null">
             <div v-for="(recipe, key) in mostRecentsRecipes" :key="key">
@@ -20,13 +24,18 @@
                     :id="recipe.receita.receita_id"
                     :quantidade="recipe.favorito.quantidade"
                     :favorite-id="recipe.favoritoId"
+                    @click="goToRecipe(recipe.receita.receita_id)"
                     />
             </div>
         </div>
         <div class="divider"></div>
         <h1>Os favoritinhos</h1>
-        <div class="container-loader" v-if="isLoadingFavorites">
-            <Loader />
+        <div class="container-recipes" v-if="isLoadingFavorites">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
         </div>
         <div class="container-recipes" v-else-if="mostFavoritesRecipes !== null">
             <div v-for="(recipe, key) in mostFavoritesRecipes" :key="key">
@@ -41,6 +50,7 @@
                     :id="recipe.receita.receita_id"
                     :quantidade="recipe.favorito.quantidade"
                     :favorite-id="recipe.favoritoId"
+                    @click="goToRecipe(recipe.receita.receita_id)"
                     />
             </div>
         </div>
@@ -54,8 +64,8 @@ import { useRouter } from 'vue-router';
 import Topic from '../../components/Topic.vue';
 import Footer from '../../components/Footer.vue';
 import Header from '../../components/Header.vue';
-import Loader from '../../components/Loader.vue';
 import Carousel from '../../components/Carousel.vue';
+import SkeletonCard from '../../components/SkeletonCard.vue';
 import RecipeCard from '../../components/RecipeCard.vue';
 
 import api from '../../services/index';
@@ -101,6 +111,10 @@ async function getMostFavoritesRecipes() {
   });
 }
 
+function goToRecipe(id) {
+  router.push(`/recipe/${id}`);
+}
+
 onMounted(async () => {
   await getMostRecentsRecipes();
   await getMostFavoritesRecipes();
@@ -125,12 +139,6 @@ onMounted(async () => {
     grid-template-columns: repeat(5, 1fr);
 
     margin: 1rem 0;
-}
-
-.container-loader {
-    width: 100%;
-    margin: 0 auto;
-    padding: 3rem 0;
 }
 
 main {

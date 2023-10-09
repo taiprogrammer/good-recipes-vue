@@ -2,30 +2,41 @@
     <Header />
     <Topic />
     <main>
-        <div class="loader_container" v-if="recipe === null">
-            <Loader />
+        <div class="container" v-if="loading">
+            <div class="skeleton-title"></div>
+            <div class="box-recipe">
+                <div>
+                    <div class="cover"></div>
+                    <div>
+                        <div class="time"></div>
+                    </div>
+                </div>
+                <div class="container-info">
+                    <h2>Ingredientes</h2>
+                    <div class="ingredientes-skeleton"></div>
+                    <h2>Modo de preparo</h2>
+                    <div class="modo-preparo-skeleton"></div>
+                </div>
+            </div>
         </div>
         <Transition v-else>
             <div class="container">
                 <h1>{{ recipe.nome }}</h1>
                 <div class="box-recipe">
                     <div class="container-cover">
-                        <img
-                            v-if="recipe.imagem === null"
-                            src="../../assets/no-image/cover.png"
-                            alt="Receita sem imagem" />
+                        <img v-if="recipe.imagem === null" src="../../assets/no-image/cover.png" alt="Receita sem imagem" />
                         <img v-else :src="`https://good-recipes-api.onrender.com/${recipe.imagem}`" :alt="recipe.nome">
                         <div>
                             <p>
                                 <PhTimer />
                                 {{ `${recipe.horas}:${recipe.minutos == 0 ?
-                                '00' : recipe.minutos}:${recipe.segundos == 0 ?
-                                '00' : recipe.segundos}` }}
+                                    '00' : recipe.minutos}:${recipe.segundos == 0 ?
+                                        '00' : recipe.segundos}` }}
                             </p>
                             <p>
                                 <PhForkKnife />
                                 {{ recipe.porcoes == 1 ?
-                                `${recipe.porcoes} porção` : `${recipe.porcoes} porções` }}
+                                    `${recipe.porcoes} porção` : `${recipe.porcoes} porções` }}
                             </p>
                         </div>
                     </div>
@@ -50,25 +61,27 @@
 import { onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { PhForkKnife, PhTimer } from '@phosphor-icons/vue';
+
 import Topic from '../../components/Topic.vue';
 import Header from '../../components/Header.vue';
 import Footer from '../../components/Footer.vue';
 
 import api from '../../services/index';
-import Loader from '../../components/Loader.vue';
 
 const route = useRoute();
 const router = useRouter();
 
 const recipe = ref(null);
+const loading = ref(true);
 
 async function getRecipe() {
   await api.get(`/recipe/${route.params.id}`)
     .then(async ({ data }) => {
       if (data) {
+        recipe.value = data;
         setTimeout(() => {
-          recipe.value = data;
-        }, 1000);
+          loading.value = false;
+        }, 2500);
       }
     })
     .catch((error) => {
@@ -90,11 +103,6 @@ onBeforeMount(() => {
 .container {
     width: 90%;
     margin: 0 auto;
-}
-
-.loader_container {
-    width: 90%;
-    margin: 18% auto;
 }
 
 h1 {
@@ -155,6 +163,56 @@ p {
 .box-recipe {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+}
+
+@keyframes loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+.skeleton-title {
+    height: 5rem;
+    width: 28rem;
+
+    margin: 2.5rem 0;
+
+    border-radius: 0.5rem;
+
+    animation: loading 1s linear infinite alternate;
+}
+
+.cover {
+    height: 18.75rem;
+    width: 21.875rem;
+
+    border-radius: 0.5rem;
+
+    animation: loading 1s linear infinite alternate;
+}
+
+.time {
+    height: 30px;
+    width: 30%;
+
+    margin: 0.5rem;
+
+    border-radius: 0.5rem;
+
+    animation: loading 1s linear infinite alternate;
+}
+
+.ingredientes-skeleton, .modo-preparo-skeleton {
+    height: 300px;
+    width: 40%;
+
+    border-radius: 0.5rem;
+
+    animation: loading 1s linear infinite alternate;
 }
 
 .v-enter-active,
